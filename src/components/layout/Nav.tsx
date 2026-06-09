@@ -48,7 +48,7 @@ export function Nav({ locale }: { locale: Locale }) {
       >
         <div className="wrap flex h-[var(--header-h)] items-center gap-6">
           <Link href={localeHref(locale, '/')} aria-label="Sadara home">
-            <Logo tone={onDark ? 'paper' : 'ink'} />
+            <Logo tone={onDark ? 'paper' : 'ink'} size={isHome ? 'lg' : 'sm'} />
           </Link>
 
           <div className="ms-auto flex items-center gap-3">

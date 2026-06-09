@@ -9,8 +9,8 @@ import { navItems } from '@/content/nav';
 import { cn } from '@/lib/cn';
 
 /* CAA homepage-as-nav pattern.
-   home size: pure dimming on hover, no children column (exact CAA).
-   overlay size: dimming + children column to the end side (interior MegaNav). */
+   Both home and overlay show the children column on hover.
+   home size: larger pillar font; overlay size: compact font inside MegaNav. */
 
 const secondaryHrefs = ['/institution', '/athletes', '/insights', '/network', '/careers'];
 
@@ -26,7 +26,6 @@ export function PillarNav({
   const tr = pick(locale);
   const [active, setActive] = useState<string | null>(null);
   const current = active ? (homePillars.find((p) => p.key === active) ?? null) : null;
-  const showChildren = size === 'overlay';
 
   const secondary = secondaryHrefs
     .map((href) => navItems.find((n) => n.href === href))
@@ -36,11 +35,11 @@ export function PillarNav({
 
   return (
     <div
-      className="flex w-full items-start gap-16"
+      className="flex w-full items-start gap-20"
       onMouseLeave={() => setActive(null)}
     >
       {/* Pillars + secondary links */}
-      <div className="min-w-0 flex-none" style={{ maxWidth: '76vw' }}>
+      <div className="flex-none">
         <ul className="flex flex-col" style={{ gap: '2px' }}>
           {homePillars.map((p) => (
             <li key={p.key}>
@@ -84,22 +83,25 @@ export function PillarNav({
         </ul>
       </div>
 
-      {/* Children column — overlay (MegaNav) only, not on homepage */}
-      {showChildren && (
-        <div
-          className={cn(
-            'flex-none pt-1 transition-opacity duration-200',
-            current ? 'opacity-100' : 'pointer-events-none opacity-0',
-          )}
-          aria-hidden={!current}
-        >
-          {current && (
-            <>
+      {/* Children column — visible on hover for both home and overlay */}
+      <div
+        className={cn(
+          'flex-none pt-1 transition-opacity duration-200',
+          current ? 'opacity-100' : 'pointer-events-none opacity-0',
+        )}
+        style={{ minWidth: '220px' }}
+        aria-hidden={!current}
+      >
+        {/* Render all pillars' children stacked; only the active one is shown via opacity above */}
+        {homePillars.map((p) => {
+          const isActive = active === p.key;
+          return (
+            <div key={p.key} className={cn('absolute', isActive ? 'relative' : 'hidden')}>
               <span className="mb-5 block font-mono text-[11px] uppercase tracking-[0.18em] text-white/45">
-                {tr(current.label)}
+                {tr(p.label)}
               </span>
               <ul className="flex flex-col gap-3">
-                {current.children.map((c) => (
+                {p.children.map((c) => (
                   <li key={c.href}>
                     <Link
                       href={localeHref(locale, c.href)}
@@ -114,10 +116,10 @@ export function PillarNav({
                   </li>
                 ))}
               </ul>
-            </>
-          )}
-        </div>
-      )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

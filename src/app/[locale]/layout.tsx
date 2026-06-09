@@ -4,6 +4,7 @@ import { locales, isLocale, type Locale } from '@/lib/i18n';
 import { HtmlLangSync } from '@/components/layout/HtmlLangSync';
 import { Nav } from '@/components/layout/Nav';
 import { Footer } from '@/components/layout/Footer';
+import { PageTransition } from '@/components/layout/PageTransition';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -49,6 +50,7 @@ export default async function LocaleLayout({
   return (
     <>
       <HtmlLangSync locale={loc} />
+      <PageTransition />
       <Nav locale={loc} />
       <main id="main">{children}</main>
       <Footer locale={loc} />

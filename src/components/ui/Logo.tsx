@@ -16,26 +16,32 @@ export function LogoIcon({ className }: { className?: string }) {
   );
 }
 
-/** Full lockup. `tone` controls wordmark color for dark (over-photo) vs light headers. */
+/** Full lockup. `tone` controls wordmark color for dark (over-photo) vs light headers.
+ *  `size` controls the icon and text scale: 'sm' = default, 'lg' = homepage. */
 export function Logo({
   className,
   withWordmark = true,
   tone = 'ink',
+  size = 'sm',
 }: {
   className?: string;
   withWordmark?: boolean;
   tone?: 'ink' | 'paper';
+  size?: 'sm' | 'lg';
 }) {
   const word = tone === 'paper' ? 'text-white' : 'text-ink';
   const sub = tone === 'paper' ? 'text-white/70' : 'text-faint';
   const mark = tone === 'paper' ? 'text-white' : 'text-electric';
+  const iconSize = size === 'lg' ? 'h-10 w-10' : 'h-7 w-7';
+  const wordSize = size === 'lg' ? 'text-[20px]' : 'text-[15px]';
+  const subSize = size === 'lg' ? 'text-[13px]' : 'text-[11px]';
   return (
     <span className={cn('inline-flex items-center gap-2.5', className)}>
-      <LogoIcon className={cn('h-7 w-7', mark)} />
+      <LogoIcon className={cn(iconSize, mark)} />
       {withWordmark && (
         <span className="flex flex-col leading-none">
-          <span className={cn('text-[15px] font-extrabold tracking-tight', word)}>Sadara</span>
-          <span className={cn('font-ar text-[11px] font-medium', sub)}>صدارة الرياضية</span>
+          <span className={cn('font-extrabold tracking-tight', wordSize, word)}>Sadara</span>
+          <span className={cn('font-ar font-medium', subSize, sub)}>صدارة الرياضية</span>
         </span>
       )}
     </span>
