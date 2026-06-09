@@ -5,7 +5,7 @@ import { PillarNav } from '@/components/layout/PillarNav';
    Single full-viewport dark screen, no header chrome, pillars centered left. */
 export function HomeHero({ locale }: { locale: Locale }) {
   return (
-    <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-[#2B2D35] text-white">
+    <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-black text-white">
       {/* Subtle radial — barely visible, matches CAA's near-flat background */}
       <div
         aria-hidden="true"
