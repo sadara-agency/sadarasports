@@ -28,7 +28,9 @@ export async function generateMetadata({
         : 'An institution, not an agency. We represent talent, advise clubs and federations, and connect markets.',
     },
     alternates: {
+      canonical: isAr ? '/ar' : '/en',
       languages: {
+        'x-default': '/ar',
         ar: '/ar',
         en: '/en',
       },
@@ -49,6 +51,7 @@ export default async function LocaleLayout({
 
   return (
     <>
+      {/* HtmlLangSync syncs lang/dir on client-side navigations between locales */}
       <HtmlLangSync locale={loc} />
       <PageTransition />
       <Nav locale={loc} />

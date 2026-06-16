@@ -1,6 +1,7 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import { Inter_Tight, JetBrains_Mono } from 'next/font/google';
+import { headers } from 'next/headers';
 import { OrganizationJsonLd } from '@/components/layout/JsonLd';
 import { CustomCursor } from '@/components/layout/CustomCursor';
 import '@/styles/globals.css';
@@ -23,7 +24,16 @@ const interTight = Inter_Tight({
   display: 'swap',
 });
 
-const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-mono', display: 'swap' });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-mono',
+  display: 'swap',
+});
+
+export const viewport: Viewport = {
+  themeColor: '#1629E2',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://sadarasport.sa'),
@@ -45,7 +55,6 @@ export const metadata: Metadata = {
     apple: '/brand/apple-touch-icon.png',
   },
   manifest: '/manifest.webmanifest',
-  themeColor: '#1629E2',
   twitter: {
     card: 'summary_large_image',
     site: '@SadaraSports',
@@ -62,9 +71,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Derive locale from the request path so crawlers see correct lang/dir on first paint.
+  // Next.js sets x-invoke-path internally; fall back to 'ar' (primary locale) if absent.
+  const headersList = await headers();
+  const pathname = headersList.get('x-invoke-path') ?? headersList.get('x-pathname') ?? '/ar';
+  const locale = pathname.startsWith('/en') ? 'en' : 'ar';
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+
   return (
-    <html suppressHydrationWarning>
+    <html lang={locale} dir={dir} suppressHydrationWarning>
       <body className={`${ibmPlexArabic.variable} ${interTight.variable} ${jetbrainsMono.variable}`}>
         <OrganizationJsonLd />
         <CustomCursor />

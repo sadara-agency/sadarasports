@@ -1,11 +1,17 @@
 import type { Locale } from '@/lib/i18n';
+import { pick } from '@/lib/i18n';
+import { homeThesis } from '@/content/home';
 import { PillarNav } from '@/components/layout/PillarNav';
 
 /* The homepage IS the navigation — CAA's exact model.
    Single full-viewport dark screen, no header chrome, pillars centered left. */
 export function HomeHero({ locale }: { locale: Locale }) {
+  const tr = pick(locale);
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-black text-white">
+      {/* Visually hidden H1 — content present for crawlers and screen readers */}
+      <h1 className="sr-only">{tr(homeThesis)}</h1>
+
       {/* Subtle radial — barely visible, matches CAA's near-flat background */}
       <div
         aria-hidden="true"
