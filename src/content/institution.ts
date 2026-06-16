@@ -96,7 +96,7 @@ export const model: ModuleData = {
 };
 
 // Leadership + experts
-export type Person = { name: Bi; role: Bi; bio: Bi };
+export type Person = { name: Bi; role: Bi; bio: Bi; photo?: string };
 
 export const leadership = {
   kicker: { ar: 'المؤسسة · القيادة', en: 'Institution · Leadership' } as Bi,
@@ -106,9 +106,9 @@ export const leadership = {
     en: 'Leadership combining sporting experience with institutional discipline — people who put long-term value before quick gain.',
   } as Bi,
   people: [
-    { name: { ar: 'الرئيس التنفيذي', en: 'Chief Executive Officer' }, role: { ar: 'القيادة والرؤية', en: 'Leadership & vision' }, bio: { ar: 'يقود الرؤية الاستراتيجية والتحوّل من وكالة إلى مؤسسة.', en: 'Leads the strategic vision and the pivot from agency to institution.' } },
-    { name: { ar: 'الاستراتيجية وتطوير الأعمال', en: 'Strategy & Business Development' }, role: { ar: 'النمو والشراكات', en: 'Growth & partnerships' }, bio: { ar: 'يبني الممرات والشراكات التي تُحوّل الشبكة إلى قيمة.', en: 'Builds the corridors and partnerships that turn network into value.' } },
-    { name: { ar: 'مدير الرياضة', en: 'Sport Manager' }, role: { ar: 'الأداء والتطوير', en: 'Performance & development' }, bio: { ar: 'يشرف على منصة Elite 360 ونظام تطوير اللاعبين.', en: 'Oversees the Elite 360 platform and the athlete development system.' } },
+    { name: { ar: 'خالد الشهري', en: 'Khalid AlShehri' }, role: { ar: 'الرئيس التنفيذي · القيادة والرؤية', en: 'Chief Executive Officer · Leadership & Vision' }, bio: { ar: 'يقود الرؤية الاستراتيجية والتحوّل من وكالة إلى مؤسسة.', en: 'Leads the strategic vision and the pivot from agency to institution.' }, photo: '/brand/team/khalid-alshehri.jpg' },
+    { name: { ar: 'علي البكري', en: 'Ali AlBakri' }, role: { ar: 'الاستراتيجية وتطوير الأعمال · النمو والشراكات', en: 'Strategy & Business Development · Growth & Partnerships' }, bio: { ar: 'يبني الممرات والشراكات التي تُحوّل الشبكة إلى قيمة.', en: 'Builds the corridors and partnerships that turn network into value.' }, photo: '/brand/team/Ali AlBakri.png' },
+    { name: { ar: 'يوسف بن طالب', en: 'Yousof bin Taleb' }, role: { ar: 'الرئيس التنفيذي للعمليات · الأداء والتطوير', en: 'Chief Operating Officer · Performance & Development' }, bio: { ar: 'يشرف على منصة Elite 360 ونظام تطوير اللاعبين.', en: 'Oversees the Elite 360 platform and the athlete development system.' }, photo: '/brand/team/Yousof bin Taleb.png' },
   ] as Person[],
 };
 
@@ -120,12 +120,12 @@ export const experts = {
     en: 'Analysis, sports medicine, law, commercial, and psychology — a technical team that turns strategy into results.',
   } as Bi,
   people: [
-    { name: { ar: 'التحليل الفني', en: 'Technical Analysis' }, role: { ar: 'بيانات الأداء', en: 'Performance data' }, bio: { ar: 'يحوّل بيانات المباريات إلى قراراتٍ تطويرية.', en: 'Turns match data into development decisions.' } },
-    { name: { ar: 'الطب الرياضي', en: 'Sports Medicine' }, role: { ar: 'الوقاية والتأهيل', en: 'Prevention & rehab' }, bio: { ar: 'يدير الوقاية من الإصابات وإدارة الأحمال.', en: 'Manages injury prevention and load management.' } },
-    { name: { ar: 'القانون والامتثال', en: 'Legal & Compliance' }, role: { ar: 'العقود والحوكمة', en: 'Contracts & governance' }, bio: { ar: 'يضمن الامتثال لـ FIFA وSAFF وحماية القاصرين.', en: 'Ensures FIFA/SAFF compliance and minor safeguarding.' } },
-    { name: { ar: 'التجاري', en: 'Commercial' }, role: { ar: 'العلامة والرعاية', en: 'Brand & sponsorship' }, bio: { ar: 'يبني القيمة التجارية المناسبة لكل مرحلة.', en: 'Builds stage-appropriate commercial value.' } },
-    { name: { ar: 'علم النفس الرياضي', en: 'Sports Psychology' }, role: { ar: 'الجاهزية الذهنية', en: 'Mental readiness' }, bio: { ar: 'يدعم الرفاهية والجاهزية الذهنية للّاعبين.', en: 'Supports athlete wellbeing and mental readiness.' } },
-    { name: { ar: 'الذكاء المؤسسي', en: 'Institutional Intelligence' }, role: { ar: 'ذكاء الأندية', en: 'Club intelligence' }, bio: { ar: 'يدير نظام ذكاء الأندية وخريطة العلاقات.', en: 'Runs the Club Intelligence System and relationship map.' } },
+    { name: { ar: 'عبدالله البكري', en: 'Abdullah AlBakri' }, role: { ar: 'خبير القوة والتكييف', en: 'S&C Expert' }, bio: { ar: 'يدير برامج القوة والتكييف البدني للاعبين.', en: 'Manages strength and conditioning programs for athletes.' }, photo: '/brand/team/members/Abdullah AlBakri - S&C EXPERT.png' },
+    { name: { ar: 'خالد القروني', en: 'Khalid AlKoroni' }, role: { ar: 'مستشار', en: 'Advisor' }, bio: { ar: 'يقدّم الخبرة الاستشارية الاستراتيجية للمؤسسة.', en: 'Provides strategic advisory expertise to the institution.' }, photo: '/brand/team/members/Khalid AlKoroni - ADVISOR.png' },
+    { name: { ar: 'صالح تايش', en: 'Saleh Tayech' }, role: { ar: 'التحليل التكتيكي', en: 'Tactical Analysis' }, bio: { ar: 'يحوّل بيانات المباريات إلى قراراتٍ تكتيكية.', en: 'Turns match data into tactical decisions.' }, photo: '/brand/team/members/Saleh Tayech - TACTICAL ANALYSIS.jfif' },
+    { name: { ar: 'خليفة فردي', en: 'Khalifah Ferdi' }, role: { ar: 'المدرب الفني', en: 'Technical Coach' }, bio: { ar: 'يطوّر الجانب الفني والمهاري للاعبين.', en: 'Develops the technical and skill aspects of athletes.' }, photo: '/brand/team/members/Khalifah Ferdi - TECHNICAL COACH.png' },
+    { name: { ar: 'محمد م.', en: 'Mohammed M.' }, role: { ar: 'مدرب اللياقة البدنية', en: 'Physical Coach' }, bio: { ar: 'يشرف على الإعداد البدني وإدارة الأحمال التدريبية.', en: 'Oversees physical preparation and training load management.' }, photo: '/brand/team/members/Mohammed M. PHYSICAL COACH.png' },
+    { name: { ar: 'أحمد أ.', en: 'Ahmed A.' }, role: { ar: 'تحليل المباريات', en: 'Match Analysis' }, bio: { ar: 'يحلّل أداء المباريات ويُعدّ تقارير الاستخبارات التنافسية.', en: 'Analyses match performance and prepares competitive intelligence reports.' }, photo: '/brand/team/members/Ahmed A. -MATCH ANALYSIS.jfif' },
   ] as Person[],
 };
 

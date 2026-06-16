@@ -22,7 +22,7 @@ export function LogoIcon({ className }: { className?: string }) {
 export function LogoLockup({
   className,
   variant = 'reverse',
-  alt = 'Sadara Sports — صدارة الرياضية',
+  alt = 'Sadara Sport — صدارة الرياضية',
 }: {
   className?: string;
   variant?: 'reverse' | 'on-navy' | 'on-black' | 'blue';
@@ -31,7 +31,7 @@ export function LogoLockup({
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={`/brand/logo-lockup-${variant}.svg`}
+      src="/brand/logo-full.svg"
       alt={alt}
       className={cn('h-9 w-auto', className)}
       draggable={false}
@@ -39,11 +39,9 @@ export function LogoLockup({
   );
 }
 
-/** Full lockup. `tone` controls wordmark color for dark (over-photo) vs light headers.
- *  `size` controls the icon and text scale: 'sm' = default, 'lg' = homepage. */
+/** Full lockup. `tone` controls filter for dark vs light backgrounds. */
 export function Logo({
   className,
-  withWordmark = true,
   tone = 'ink',
   size = 'sm',
 }: {
@@ -52,21 +50,16 @@ export function Logo({
   tone?: 'ink' | 'paper';
   size?: 'sm' | 'lg';
 }) {
-  const word = tone === 'paper' ? 'text-white' : 'text-ink';
-  const sub = tone === 'paper' ? 'text-white/70' : 'text-faint';
-  const mark = tone === 'paper' ? 'text-white' : 'text-electric';
-  const iconSize = size === 'lg' ? 'h-10 w-10' : 'h-7 w-7';
-  const wordSize = size === 'lg' ? 'text-[20px]' : 'text-[15px]';
-  const subSize = size === 'lg' ? 'text-[13px]' : 'text-[11px]';
+  const h = size === 'lg' ? 'h-11' : 'h-8';
+  // logo-full.svg is light (#E4E5F3) — invert to dark on light backgrounds
+  const filter = tone === 'ink' ? 'brightness-0' : '';
   return (
-    <span dir="ltr" className={cn('inline-flex items-center gap-2.5', className)}>
-      <LogoIcon className={cn(iconSize, mark)} />
-      {withWordmark && (
-        <span className="flex flex-col leading-none">
-          <span className={cn('font-extrabold tracking-tight', wordSize, word)}>Sadara</span>
-          <span className={cn('font-ar font-medium', subSize, sub)}>صدارة الرياضية</span>
-        </span>
-      )}
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/brand/logo-full.svg"
+      alt="Sadara Sport — صدارة الرياضية"
+      className={cn('w-auto', h, filter, className)}
+      draggable={false}
+    />
   );
 }

@@ -17,7 +17,11 @@ export function PeopleGrid({ locale, people }: { locale: Locale; people: Person[
             <RevealItem key={i}>
               <div className="group h-full overflow-hidden rounded-card border border-hairline bg-paper transition-colors hover:border-ink/30">
                 <div className="relative flex aspect-[3/2] items-center justify-center overflow-hidden bg-canvas">
-                  <LogoIcon className="h-16 w-16 text-electric/25 transition-transform duration-700 group-hover:scale-110" />
+                  {p.photo ? (
+                    <img src={p.photo} alt={tr(p.name)} className="h-full w-full object-contain object-center transition-transform duration-700 group-hover:scale-105" />
+                  ) : (
+                    <LogoIcon className="h-16 w-16 text-electric/25 transition-transform duration-700 group-hover:scale-110" />
+                  )}
                 </div>
                 <div className="p-6">
                   <h3 className="text-h3 font-bold text-ink">{tr(p.name)}</h3>
