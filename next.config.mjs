@@ -6,6 +6,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'images.pexels.com' },
       { protocol: 'https', hostname: 'videos.pexels.com' },
+      { protocol: 'https', hostname: 'picsum.photos' },
     ],
   },
   // English-primary: the bare root sends visitors to /en.

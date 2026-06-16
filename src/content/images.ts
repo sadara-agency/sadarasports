@@ -27,12 +27,12 @@ export const images = {
   athleteDefault: 'https://images.unsplash.com/photo-1526232761682-d26e03ac148e?w=1000&q=72',
   // Insights/news cards — indexed by position in the articles array.
   articles: [
-    'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=900&q=72',
-    'https://images.unsplash.com/photo-1551958219-acbc608c6377?w=900&q=72',
-    'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=900&q=72',
-    'https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=900&q=72',
-    'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=900&q=72',
-    'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=900&q=72',
+    'https://picsum.photos/seed/sadara-a1/900/562',
+    'https://picsum.photos/seed/sadara-a2/900/562',
+    'https://picsum.photos/seed/sadara-a3/900/562',
+    'https://picsum.photos/seed/sadara-a4/900/562',
+    'https://picsum.photos/seed/sadara-a5/900/562',
+    'https://picsum.photos/seed/sadara-a6/900/562',
   ] as string[],
 };
 
