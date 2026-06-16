@@ -14,7 +14,7 @@ export function ArticleList({ locale, items }: { locale: Locale; items: Article[
             <RevealItem key={i}>
               <article className="group flex h-full flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-card border border-hairline">
-                  <img src={articlePhoto(i)} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                  <img src={articlePhoto(i)} alt={tr(a.title)} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
                 </div>
                 <div className="mt-4 flex items-center gap-3">
                   <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-electric">{tr(a.category)}</span>

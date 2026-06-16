@@ -10,7 +10,7 @@ const nextConfig = {
   },
   // Arabic-primary: the bare root sends visitors to /ar.
   async redirects() {
-    return [{ source: '/', destination: '/ar', permanent: false }];
+    return [{ source: '/', destination: '/ar', permanent: true }];
   },
 };
 

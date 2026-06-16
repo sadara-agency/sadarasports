@@ -30,7 +30,36 @@ export const metadata: Metadata = {
   title: { default: 'Sadara Sports — صدارة الرياضية', template: '%s · Sadara Sports' },
   description:
     'An institution, not an agency. Sadara represents and develops athletes, advises clubs and federations, and connects markets — one institution, three strategic units.',
-  icons: { icon: '/brand/logo-icon.svg' },
+  keywords: [
+    'Sadara Sports',
+    'صدارة الرياضية',
+    'football agency MENA',
+    'sports agency Saudi Arabia',
+    'athlete representation',
+    'وكالة رياضية',
+    'تمثيل لاعبين',
+    'سعودي برو ليغ',
+  ],
+  icons: {
+    icon: [{ url: '/brand/logo-icon.svg', type: 'image/svg+xml' }],
+    apple: '/brand/apple-touch-icon.png',
+  },
+  manifest: '/manifest.webmanifest',
+  themeColor: '#1629E2',
+  twitter: {
+    card: 'summary_large_image',
+    site: '@SadaraSports',
+    creator: '@SadaraSports',
+    title: 'Sadara Sports — صدارة الرياضية',
+    description:
+      'An institution, not an agency. Sadara represents athletes, advises clubs and federations, and connects markets across MENA.',
+    images: ['/brand/og-default.jpg'],
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'Sadara Sports',
+    images: [{ url: '/brand/og-default.jpg', width: 1200, height: 630, alt: 'Sadara Sports' }],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
