@@ -107,8 +107,8 @@ export const leadership = {
   } as Bi,
   people: [
     { name: { ar: 'خالد الشهري', en: 'Khalid AlShehri' }, role: { ar: 'الرئيس التنفيذي · القيادة والرؤية', en: 'Chief Executive Officer · Leadership & Vision' }, bio: { ar: 'يقود الرؤية الاستراتيجية والتحوّل من وكالة إلى مؤسسة.', en: 'Leads the strategic vision and the pivot from agency to institution.' }, photo: '/brand/team/khalid-alshehri.jpg' },
-    { name: { ar: 'علي البكري', en: 'Ali AlBakri' }, role: { ar: 'الاستراتيجية وتطوير الأعمال · النمو والشراكات', en: 'Strategy & Business Development · Growth & Partnerships' }, bio: { ar: 'يبني الممرات والشراكات التي تُحوّل الشبكة إلى قيمة.', en: 'Builds the corridors and partnerships that turn network into value.' }, photo: '/brand/team/Ali AlBakri.png' },
     { name: { ar: 'يوسف بن طالب', en: 'Yousof bin Taleb' }, role: { ar: 'الرئيس التنفيذي للعمليات · الأداء والتطوير', en: 'Chief Operating Officer · Performance & Development' }, bio: { ar: 'يشرف على منصة Elite 360 ونظام تطوير اللاعبين.', en: 'Oversees the Elite 360 platform and the athlete development system.' }, photo: '/brand/team/Yousof bin Taleb.png' },
+    { name: { ar: 'علي البكري', en: 'Ali AlBakri' }, role: { ar: 'الاستراتيجية وتطوير الأعمال · النمو والشراكات', en: 'Strategy & Business Development · Growth & Partnerships' }, bio: { ar: 'يبني الممرات والشراكات التي تُحوّل الشبكة إلى قيمة.', en: 'Builds the corridors and partnerships that turn network into value.' }, photo: '/brand/team/Ali AlBakri.png' },
   ] as Person[],
 };
 

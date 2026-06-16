@@ -6,12 +6,18 @@ import { LogoIcon } from '@/components/ui/Logo';
 
 /** Bio-card grid for Leadership / Experts. Emblem placeholder avatar until real
  *  headshots are supplied. */
-export function PeopleGrid({ locale, people }: { locale: Locale; people: Person[] }) {
+export function PeopleGrid({ locale, people, heading, subheading }: { locale: Locale; people: Person[]; heading?: string; subheading?: string }) {
   const tr = pick(locale);
   const cols = people.length <= 3 ? 'md:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-3';
   return (
     <section className="border-t border-hairline bg-paper py-20 md:py-28">
       <div className="wrap">
+        {heading && (
+          <div className="mb-12">
+            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-electric">{heading}</p>
+            {subheading && <h2 className="mt-2 text-h2 font-bold text-ink">{subheading}</h2>}
+          </div>
+        )}
         <RevealGroup className={`grid gap-6 ${cols}`}>
           {people.map((p, i) => (
             <RevealItem key={i}>
