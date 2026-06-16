@@ -22,6 +22,7 @@ const DOC_LINKS: { href: string; label: string }[] = [
 ];
 
 const LIST_LINKS = [
+  { href: '/admin/pages', label: 'Pages' },
   { href: '/admin/athletes', label: 'Athletes' },
   { href: '/admin/articles', label: 'Articles & News' },
   { href: '/admin/roles', label: 'Open Roles' },

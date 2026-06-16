@@ -3,6 +3,7 @@ import Link from 'next/link';
 const CARDS = [
   { href: '/admin/docs/home', title: 'Home', desc: 'Hero, pillars, proof stats, CTAs.' },
   { href: '/admin/docs/nav', title: 'Navigation & Footer', desc: 'Menu, audiences, footer columns.' },
+  { href: '/admin/pages', title: 'Pages', desc: 'Build custom pages from blocks.' },
   { href: '/admin/athletes', title: 'Athletes', desc: 'Roster profiles, stats, photos.' },
   { href: '/admin/articles', title: 'Articles & News', desc: 'Insights feed items.' },
   { href: '/admin/roles', title: 'Open Roles', desc: 'Careers listings.' },
