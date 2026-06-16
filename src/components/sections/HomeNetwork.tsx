@@ -13,9 +13,13 @@ export function HomeNetwork({ locale }: { locale: Locale }) {
       </div>
       <div className="mt-10">
         <Marquee>
-          {networkStrip.partners.map((p) => (
-            <span key={p} className="whitespace-nowrap text-lg font-bold text-faint">{p}</span>
-          ))}
+          {networkStrip.partners.map((p) =>
+            p.logo ? (
+              <img key={p.name} src={p.logo} alt={p.name} className="h-10 w-auto object-contain opacity-70 grayscale transition-all hover:opacity-100 hover:grayscale-0" />
+            ) : (
+              <span key={p.name} className="whitespace-nowrap text-lg font-bold text-faint">{p.name}</span>
+            )
+          )}
         </Marquee>
       </div>
     </section>

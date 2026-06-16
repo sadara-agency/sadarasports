@@ -140,16 +140,16 @@ export const proofSection = {
 export const networkStrip = {
   kicker: { ar: 'الشبكة', en: 'The Network' } as Bi,
   title: { ar: 'مدعومون بالمؤسسات التي تبني الرياضة السعودية.', en: 'Backed by the institutions building Saudi sport.' } as Bi,
-  // Placeholder partner names — swap for real logos later.
   partners: [
-    'Ministry of Sport',
-    'SAFF',
-    'Derayah',
-    'Sajaya',
-    'ScoutingStats',
-    'Catapult',
-    'Hudl',
-    'Sukuk',
+    { name: 'Ministry of Sport', logo: '/network/GOVERNMENT/Ministry of Sport.png' },
+    { name: 'SAFF', logo: '/network/GOVERNMENT/saff.png' },
+    { name: 'Derayah', logo: '/network/INSTITUTIONS/Derayah.png' },
+    { name: 'Sajaya', logo: '/network/INSTITUTIONS/Sajaya.png' },
+    { name: 'Sukuk', logo: '/network/INSTITUTIONS/Sukuk.png' },
+    { name: 'ScoutingStats', logo: '/network/SOLUTIONS/ScoutingStats.png' },
+    { name: 'Catapult', logo: '/network/SOLUTIONS/Catapult.png' },
+    { name: 'Hudl', logo: '/network/SOLUTIONS/Hudl.png' },
+    { name: 'FITBIT', logo: '/network/SOLUTIONS/FITBIT.png' },
   ],
 };
 
