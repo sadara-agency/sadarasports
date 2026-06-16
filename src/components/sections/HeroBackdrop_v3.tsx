@@ -30,7 +30,7 @@ export function HeroBackdrop_v3() {
         }}
         initial={reduce ? false : { opacity: 0, scale: 1.15 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={reduce ? undefined : { duration: 1.4, ease: EASE }}
+        transition={reduce ? undefined : { duration: 2.6, ease: EASE }}
       />
 
       {/* Living glow — ignites then breathes. */}
@@ -41,7 +41,7 @@ export function HeroBackdrop_v3() {
         }}
         initial={reduce ? false : { opacity: 0 }}
         animate={reduce ? { opacity: 0.8 } : { opacity: [0, 0.95, 0.65, 0.85] }}
-        transition={reduce ? undefined : { duration: 6, times: [0, 0.35, 0.7, 1], ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse', repeatDelay: 0 }}
+        transition={reduce ? undefined : { duration: 10, times: [0, 0.35, 0.7, 1], ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse', repeatDelay: 0 }}
       />
 
       {/* One-shot diagonal light beam sweep across the field. */}
@@ -53,7 +53,7 @@ export function HeroBackdrop_v3() {
           }}
           initial={{ left: '-50%', opacity: 0 }}
           animate={{ left: ['-50%', '120%'], opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 1.6, delay: 0.5, ease: EASE, times: [0, 0.15, 0.85, 1] }}
+          transition={{ duration: 3.2, delay: 1.2, ease: EASE, times: [0, 0.15, 0.85, 1] }}
         />
       )}
     </div>
