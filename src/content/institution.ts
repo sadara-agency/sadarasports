@@ -162,6 +162,13 @@ export const governance: ModuleData = {
   },
 };
 
+// Legal credentials & licenses — registration numbers that anchor our legal standing.
+// Surfaced on the Governance page and in the footer. Values stay LTR even in Arabic.
+export const credentials: { label: Bi; value: string }[] = [
+  { label: { ar: 'الرقم الموحّد', en: 'Unified Number' }, value: '7052143646' },
+  { label: { ar: 'رخصة وكيل FIFA', en: 'FIFA Agent License No.' }, value: '202411-8478' },
+];
+
 export const impact: ModuleData = {
   kicker: { ar: 'المؤسسة · الرؤية والأثر', en: 'Institution · Vision & Impact' },
   title: { ar: 'تطوير الموهبة السعودية.', en: 'Developing Saudi talent.' },

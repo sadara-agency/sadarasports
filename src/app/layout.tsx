@@ -75,8 +75,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // Derive locale from the request path so crawlers see correct lang/dir on first paint.
   // Next.js sets x-invoke-path internally; fall back to 'ar' (primary locale) if absent.
   const headersList = await headers();
-  const pathname = headersList.get('x-invoke-path') ?? headersList.get('x-pathname') ?? '/ar';
-  const locale = pathname.startsWith('/en') ? 'en' : 'ar';
+  const pathname = headersList.get('x-invoke-path') ?? headersList.get('x-pathname') ?? '/en';
+  const locale = pathname.startsWith('/ar') ? 'ar' : 'en';
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
   return (

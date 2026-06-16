@@ -8,9 +8,9 @@ const nextConfig = {
       { protocol: 'https', hostname: 'videos.pexels.com' },
     ],
   },
-  // Arabic-primary: the bare root sends visitors to /ar.
+  // English-primary: the bare root sends visitors to /en.
   async redirects() {
-    return [{ source: '/', destination: '/ar', permanent: true }];
+    return [{ source: '/', destination: '/en', permanent: true }];
   },
 };
 

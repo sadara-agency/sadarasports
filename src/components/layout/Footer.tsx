@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Locale } from '@/lib/i18n';
 import { localeHref, pick } from '@/lib/i18n';
 import { footer } from '@/content/nav';
+import { credentials } from '@/content/institution';
 import { LogoLockup } from '@/components/ui/Logo';
 
 export function Footer({ locale }: { locale: Locale }) {
@@ -34,6 +35,11 @@ export function Footer({ locale }: { locale: Locale }) {
             <Link key={i} href={localeHref(locale, l.href)} className="transition-colors hover:text-white/80">
               {tr(l.label)}
             </Link>
+          ))}
+          {credentials.map((c, i) => (
+            <span key={`cred-${i}`} className="text-white/40">
+              {tr(c.label)}: <span dir="ltr" className="font-mono text-white/55">{c.value}</span>
+            </span>
           ))}
           <span className="font-ar ms-auto">صدارة الرياضية · Riyadh</span>
         </div>

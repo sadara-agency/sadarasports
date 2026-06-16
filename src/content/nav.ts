@@ -7,7 +7,7 @@ export type NavItem = { label: Bi; href: string; children?: NavChild[] };
 // inside each section.
 export const navItems: NavItem[] = [
   {
-    label: { ar: 'المؤسسة', en: 'The Institution' },
+    label: { ar: 'صدارة', en: 'Sadara' },
     href: '/institution',
     children: [
       { label: { ar: 'من نحن', en: 'Who We Are' }, href: '/institution/about', desc: { ar: 'الأطروحة وقصة التأسيس', en: 'The thesis and founding story' } },
@@ -54,7 +54,7 @@ export const footer = {
   },
   columns: [
     {
-      title: { ar: 'المؤسسة', en: 'Institution' },
+      title: { ar: 'صدارة', en: 'Sadara' },
       links: [
         { label: { ar: 'من نحن', en: 'Who We Are' }, href: '/institution/about' },
         { label: { ar: 'القيادة', en: 'Leadership' }, href: '/institution/leadership' },

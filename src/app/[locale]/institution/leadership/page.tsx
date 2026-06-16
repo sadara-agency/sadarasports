@@ -42,7 +42,7 @@ export default async function LeadershipPage({ params }: { params: Promise<{ loc
       />
       <CTASection
         locale={loc}
-        title={loc === 'ar' ? 'انضمّ إلى المؤسسة.' : 'Join the institution.'}
+        title={loc === 'ar' ? 'انضمّ إلى صدارة.' : 'Join Sadara.'}
         primary={{ label: loc === 'ar' ? 'الوظائف' : 'Careers', href: '/careers' }}
       />
     </>
