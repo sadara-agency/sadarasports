@@ -58,6 +58,7 @@ export const footer = {
       links: [
         { label: { ar: 'من نحن', en: 'Who We Are' }, href: '/institution/about' },
         { label: { ar: 'القيادة', en: 'Leadership' }, href: '/institution/leadership' },
+        { label: { ar: 'الخبراء والفريق الفني', en: 'Experts & Technical Team' }, href: '/institution/experts' },
         { label: { ar: 'الحوكمة', en: 'Governance' }, href: '/institution/governance' },
         { label: { ar: 'الرؤية والأثر', en: 'Vision & Impact' }, href: '/institution/impact' },
       ],
