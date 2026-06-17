@@ -3,6 +3,7 @@ import { pick } from '@/lib/i18n';
 import { getDoc } from '@/lib/content';
 import { HeroBackdrop_v4 } from '@/components/sections/HeroBackdrop_v4';
 import { MagneticPillars_v4 } from '@/components/sections/MagneticPillars_v4';
+import { LogoLockup } from '@/components/ui/Logo';
 
 /* The homepage IS the navigation — CAA's exact model.
    Single full-viewport dark screen, no header chrome, pillars centered left. */
@@ -17,10 +18,15 @@ export async function HomeHero({ locale }: { locale: Locale }) {
       {/* V4 — consistent aurora blobs backdrop */}
       <HeroBackdrop_v4 />
 
+      {/* Logo — top-left / top-right (RTL-safe) */}
+      <div className="relative z-10 flex items-center px-8 pt-6">
+        <LogoLockup variant="reverse" className="h-9" />
+      </div>
+
       {/* CAA layout: pillar block starts at ~32% from top, 24% from the start edge (RTL-safe) */}
       <div
         className="relative z-10 flex w-full flex-1 flex-col"
-        style={{ paddingTop: '32vh', paddingInlineStart: '24vw', paddingBottom: '8vh' }}
+        style={{ paddingTop: '22vh', paddingInlineStart: '24vw', paddingBottom: '8vh' }}
       >
         <MagneticPillars_v4 locale={locale} />
       </div>
