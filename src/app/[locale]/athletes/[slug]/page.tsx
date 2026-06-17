@@ -84,8 +84,8 @@ export default async function AthleteProfilePage({
         lead={tr(a.bio)}
         image={a.photoUrl}
         crumbs={[
-          { label: loc === 'ar' ? 'الرئيسية' : 'Home', href: '/' },
-          { label: loc === 'ar' ? 'لاعبونا' : 'Our Athletes', href: '/athletes' },
+          { label: tr({ en: 'Home', ar: 'الرئيسية' }), href: '/' },
+          { label: tr({ en: 'Our Athletes', ar: 'لاعبونا' }), href: '/athletes' },
           { label: tr(a.name) },
         ]}
       />
