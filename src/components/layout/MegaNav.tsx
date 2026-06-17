@@ -42,7 +42,7 @@ export function MegaNav({ locale, open, onClose }: { locale: Locale; open: boole
       aria-modal="true"
       aria-label={tr({ en: 'Menu', ar: 'القائمة' })}
       tabIndex={-1}
-      className="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-navy text-white outline-none animate-fade-up"
+      className="fixed inset-0 z-[60] flex flex-col overflow-x-hidden overflow-y-auto bg-navy text-white outline-none animate-fade-up"
     >
       {/* Atmospheric electric glow (the only flourish). */}
       <div

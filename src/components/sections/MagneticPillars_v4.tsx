@@ -30,7 +30,7 @@ export function MagneticPillars_v4({ locale }: { locale: Locale }) {
     .filter((n): n is NonNullable<typeof n> => Boolean(n));
 
   return (
-    <div className="flex w-full items-start gap-20" onMouseLeave={() => setActive(null)}>
+    <div className="flex w-full flex-wrap items-start gap-10 md:flex-nowrap md:gap-20" onMouseLeave={() => setActive(null)}>
       <div className="flex-none">
         <ul className="flex flex-col" style={{ gap: '2px' }}>
           {homePillars.map((p, i) => (
@@ -45,8 +45,8 @@ export function MagneticPillars_v4({ locale }: { locale: Locale }) {
               <Link
                 href={localeHref(locale, p.href)}
                 aria-current={active === p.key ? 'true' : undefined}
-                className="block font-semibold text-white"
-                style={{ fontSize: '50px', lineHeight: '1.2', letterSpacing: '-0.01em' }}
+                className="block font-semibold text-white text-[clamp(28px,6vw,50px)]"
+                style={{ lineHeight: '1.2', letterSpacing: '-0.01em' }}
               >
                 {tr(p.label)}
               </Link>
@@ -65,8 +65,7 @@ export function MagneticPillars_v4({ locale }: { locale: Locale }) {
               <Link
                 href={localeHref(locale, n.href)}
                 onMouseEnter={() => setActive(null)}
-                className="font-medium text-white/45 transition-colors hover:text-white/80"
-                style={{ fontSize: '18px' }}
+                className="font-medium text-white/45 transition-colors hover:text-white/80 text-[clamp(15px,2vw,18px)]"
               >
                 {tr(n.label)}
               </Link>

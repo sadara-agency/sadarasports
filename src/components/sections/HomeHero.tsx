@@ -25,8 +25,7 @@ export async function HomeHero({ locale }: { locale: Locale }) {
 
       {/* CAA layout: pillar block starts at ~32% from top, 24% from the start edge (RTL-safe) */}
       <div
-        className="relative z-10 flex w-full flex-1 flex-col"
-        style={{ paddingTop: '22vh', paddingInlineStart: '24vw', paddingBottom: '8vh' }}
+        className="relative z-10 flex w-full flex-1 flex-col px-6 pt-[18vh] pb-[8vh] sm:px-10 md:pt-[22vh] md:[padding-inline-start:24vw] md:px-0"
       >
         <MagneticPillars_v4 locale={locale} />
       </div>

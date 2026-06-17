@@ -35,14 +35,14 @@ export function PillarNav({
     .map((href) => navItems.find((n) => n.href === href))
     .filter((n): n is NonNullable<typeof n> => Boolean(n));
 
-  const pillarFontSize = size === 'home' ? '50px' : '38px';
+  const pillarFontSize = size === 'home' ? 'clamp(28px,6vw,50px)' : 'clamp(22px,5vw,38px)';
 
   // Animate only on the home size; overlay is triggered mid-session (no entrance needed)
   const animate = size === 'home' && !reduce;
 
   return (
     <div
-      className="flex w-full items-start gap-20"
+      className="flex w-full flex-wrap items-start gap-10 md:flex-nowrap md:gap-20"
       onMouseLeave={() => setActive(null)}
     >
       {/* Pillars + secondary links */}
@@ -95,7 +95,7 @@ export function PillarNav({
                 onClick={onNavigate}
                 onMouseEnter={() => setActive(null)}
                 className="font-medium text-white/45 transition-colors hover:text-white/80"
-                style={{ fontSize: '18px' }}
+                style={{ fontSize: 'clamp(14px,2vw,18px)' }}
               >
                 {tr(n.label)}
               </Link>
@@ -110,7 +110,7 @@ export function PillarNav({
           'flex-none pt-1 transition-opacity duration-200',
           current ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
-        style={{ minWidth: '220px' }}
+        style={{ minWidth: 'min(220px, 100%)' }}
         aria-hidden={!current}
       >
         {/* Render all pillars' children stacked; only the active one is shown via opacity above */}
