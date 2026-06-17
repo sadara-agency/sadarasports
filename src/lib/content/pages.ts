@@ -31,16 +31,3 @@ export const getPublishedPage = cache(async (slug: string): Promise<PublishedPag
     return null;
   }
 });
-
-// Slugs of all published pages — used by generateStaticParams.
-export const listPublishedSlugs = cache(async (): Promise<string[]> => {
-  if (!supabaseConfigured()) return [];
-  try {
-    const db = serviceClient();
-    const { data, error } = await db.from('pages').select('slug').eq('published', true);
-    if (error || !data) return [];
-    return data.map((r) => r.slug as string);
-  } catch {
-    return [];
-  }
-});

@@ -1,20 +1,15 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { locales, isLocale, type Locale, pick } from '@/lib/i18n';
-import { getPublishedPage, listPublishedSlugs } from '@/lib/content/pages';
+import { isLocale, type Locale, pick } from '@/lib/i18n';
+import { getPublishedPage } from '@/lib/content/pages';
 import { renderBlock } from '@/lib/blocks/registry';
 
-// Catch-all for builder-authored pages. Next.js resolves more-specific routes
-// first, so fixed routes (/talent, /athletes/[slug], …) are unaffected — only
-// otherwise-unmatched paths reach here, and unknown slugs 404.
-export async function generateStaticParams() {
-  const slugs = await listPublishedSlugs();
-  return locales.flatMap((locale) =>
-    slugs.map((slug) => ({ locale, slug: slug.split('/') })),
-  );
-}
-
-export const revalidate = 3600;
+// Catch-all for builder-authored pages. Rendered dynamically (SSR) per request:
+// pages are created/edited at runtime in the CMS, and the shared root layout uses
+// headers(), so this route can't be statically prerendered. Next.js resolves
+// more-specific routes first, so fixed routes (/talent, /athletes/[slug], …) are
+// unaffected — only otherwise-unmatched paths reach here, and unknown slugs 404.
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,
