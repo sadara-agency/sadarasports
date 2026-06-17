@@ -60,19 +60,20 @@ export function AthletesManager({ initial }: { initial: AthleteRow[] }) {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Athletes</h1>
-          {msg && <p className="mt-0.5 text-xs text-white/55">{msg}</p>}
+          {msg && <p className="mt-0.5 text-xs" style={{ color: 'var(--adm-text-sm)' }}>{msg}</p>}
         </div>
         <button
           onClick={() => setEditing({ ...BLANK, sort: rows.length })}
-          className="rounded-lg bg-[#3C3CFA] px-4 py-2 text-sm font-medium"
+          className="rounded-lg px-4 py-2 text-sm font-medium"
+          style={{ background: 'var(--adm-accent)' }}
         >
           + New athlete
         </button>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-white/10">
+      <div className="overflow-hidden rounded-xl border" style={{ borderColor: 'var(--adm-border)' }}>
         <table className="w-full text-sm">
-          <thead className="bg-white/[0.03] text-left text-white/50">
+          <thead className="text-left" style={{ background: 'var(--adm-input-bg)', color: 'var(--adm-text-sm)' }}>
             <tr>
               <th className="px-4 py-2 font-medium">Order</th>
               <th className="px-4 py-2 font-medium">Name</th>
@@ -83,7 +84,7 @@ export function AthletesManager({ initial }: { initial: AthleteRow[] }) {
           </thead>
           <tbody>
             {rows.map((r, i) => (
-              <tr key={r.id ?? r.slug} className="border-t border-white/5">
+              <tr key={r.id ?? r.slug} className="border-t" style={{ borderColor: 'var(--adm-border)' }}>
                 <td className="px-4 py-2">
                   <div className="flex gap-1">
                     <button onClick={() => move(i, -1)} disabled={i === 0} className="px-1 disabled:opacity-30">↑</button>
@@ -92,24 +93,24 @@ export function AthletesManager({ initial }: { initial: AthleteRow[] }) {
                 </td>
                 <td className="px-4 py-2">
                   <div className="font-medium">{r.name_en || '(no name)'}</div>
-                  <div dir="rtl" className="text-xs text-white/45">{r.name_ar}</div>
+                  <div dir="rtl" className="text-xs" style={{ color: 'var(--adm-text-xs)' }}>{r.name_ar}</div>
                 </td>
                 <td className="px-4 py-2">{r.tier}</td>
                 <td className="px-4 py-2">
-                  <span className={r.published ? 'text-[#34C759]' : 'text-white/40'}>
+                  <span className={r.published ? 'text-[#34C759]' : ''} style={r.published ? undefined : { color: 'var(--adm-text-xs)' }}>
                     {r.published ? 'Published' : 'Draft'}
                   </span>
                 </td>
                 <td className="px-4 py-2 text-right">
-                  <button onClick={() => setEditing(r)} className="text-[#3C3CFA] hover:underline">Edit</button>
+                  <button onClick={() => setEditing(r)} className="text-[#3C3CFA]">Edit</button>
                   {r.id && (
-                    <button onClick={() => onDelete(r.id!)} className="ms-3 text-[#FF453A] hover:underline">Delete</button>
+                    <button onClick={() => onDelete(r.id!)} className="ms-3 text-[#FF453A]">Delete</button>
                   )}
                 </td>
               </tr>
             ))}
             {rows.length === 0 && (
-              <tr><td colSpan={5} className="px-4 py-8 text-center text-white/40">No athletes yet.</td></tr>
+              <tr><td colSpan={5} className="px-4 py-8 text-center" style={{ color: 'var(--adm-text-xs)' }}>No athletes yet.</td></tr>
             )}
           </tbody>
         </table>
@@ -138,17 +139,17 @@ function AthleteEditor({
     label: string; ar: string; en: string; keyAr: keyof AthleteRow; keyEn: keyof AthleteRow; long?: boolean;
   }) => (
     <div className="space-y-2">
-      <div className="text-sm font-medium text-white/75">{label}</div>
+      <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>{label}</div>
       <div className="grid gap-2 sm:grid-cols-2">
         {long ? (
-          <textarea dir="rtl" lang="ar" rows={2} value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<AthleteRow>)} className="rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm" />
+          <textarea dir="rtl" lang="ar" rows={2} value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<AthleteRow>)} className="rounded-lg px-3 py-2 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
         ) : (
-          <input dir="rtl" lang="ar" value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<AthleteRow>)} className="h-10 rounded-lg border border-white/15 bg-white/5 px-3 text-sm" />
+          <input dir="rtl" lang="ar" value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<AthleteRow>)} className="h-10 rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
         )}
         {long ? (
-          <textarea dir="ltr" lang="en" rows={2} value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<AthleteRow>)} className="rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm" />
+          <textarea dir="ltr" lang="en" rows={2} value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<AthleteRow>)} className="rounded-lg px-3 py-2 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
         ) : (
-          <input dir="ltr" lang="en" value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<AthleteRow>)} className="h-10 rounded-lg border border-white/15 bg-white/5 px-3 text-sm" />
+          <input dir="ltr" lang="en" value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<AthleteRow>)} className="h-10 rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
         )}
       </div>
     </div>
@@ -157,18 +158,19 @@ function AthleteEditor({
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/60" onClick={onCancel}>
       <div
-        className="h-full w-full max-w-2xl overflow-y-auto bg-[#11132B] p-8 text-white"
+        className="h-full w-full max-w-2xl overflow-y-auto p-8"
+        style={{ background: 'var(--adm-surface)', color: 'var(--adm-text)' }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-lg font-semibold">{row.id ? 'Edit athlete' : 'New athlete'}</h2>
-          <button onClick={onCancel} className="text-2xl text-white/60 hover:text-white">✕</button>
+          <button onClick={onCancel} className="text-2xl" style={{ color: 'var(--adm-text-sm)' }}>✕</button>
         </div>
 
         <div className="space-y-5">
           <div className="space-y-1.5">
-            <div className="text-sm font-medium text-white/75">Slug (URL, lowercase-dashes)</div>
-            <input value={draft.slug} onChange={(e) => set({ slug: e.target.value })} className="h-10 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-sm" />
+            <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Slug (URL, lowercase-dashes)</div>
+            <input value={draft.slug} onChange={(e) => set({ slug: e.target.value })} className="h-10 w-full rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
           </div>
           <Pair label="Name" ar={draft.name_ar} en={draft.name_en} keyAr="name_ar" keyEn="name_en" />
           <Pair label="Sport" ar={draft.sport_ar} en={draft.sport_en} keyAr="sport_ar" keyEn="sport_en" />
@@ -176,9 +178,9 @@ function AthleteEditor({
           <Pair label="Club" ar={draft.club_ar} en={draft.club_en} keyAr="club_ar" keyEn="club_en" />
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <div className="text-sm font-medium text-white/75">Tier</div>
-              <select value={draft.tier} onChange={(e) => set({ tier: e.target.value })} className="h-10 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-sm">
-                {TIERS.map((t) => <option key={t} value={t} className="bg-[#11132B]">{t}</option>)}
+              <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Tier</div>
+              <select value={draft.tier} onChange={(e) => set({ tier: e.target.value })} className="h-10 w-full rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }}>
+                {TIERS.map((t) => <option key={t} value={t} style={{ background: 'var(--adm-surface)' }}>{t}</option>)}
               </select>
             </div>
             <label className="mt-7 flex items-center gap-2 text-sm">
@@ -190,7 +192,7 @@ function AthleteEditor({
           <Pair label="Media value" ar={draft.media_value_ar} en={draft.media_value_en} keyAr="media_value_ar" keyEn="media_value_en" long />
 
           <div className="space-y-2">
-            <div className="text-sm font-medium text-white/75">Photo</div>
+            <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Photo</div>
             <ImageInput value={draft.photo_url ?? ''} onChange={(v) => set({ photo_url: v || null })} />
           </div>
 
@@ -202,8 +204,8 @@ function AthleteEditor({
         </div>
 
         <div className="mt-8 flex gap-3">
-          <button onClick={() => onSave(draft)} className="rounded-lg bg-[#3C3CFA] px-5 py-2 text-sm font-medium">Save</button>
-          <button onClick={onCancel} className="rounded-lg border border-white/15 px-5 py-2 text-sm">Cancel</button>
+          <button onClick={() => onSave(draft)} className="rounded-lg px-5 py-2 text-sm font-medium" style={{ background: 'var(--adm-accent)' }}>Save</button>
+          <button onClick={onCancel} className="rounded-lg px-5 py-2 text-sm" style={{ borderColor: 'var(--adm-border-md)', border: '1px solid' }}>Cancel</button>
         </div>
       </div>
     </div>

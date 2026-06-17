@@ -1,10 +1,31 @@
 import type { MetadataRoute } from 'next';
 import { locales } from '@/lib/i18n';
 import { athletes } from '@/content/athletes';
+import { listArticles } from '@/lib/content/insights';
 
-const SITE = 'https://sadarasport.sa';
+const SITE = 'https://www.sadarasport.sa';
 
-// All static routes (without locale prefix).
+// Priority tiers
+const HIGH_PRIORITY_ROUTES = new Set(['/']);
+const SECTION_ROOTS = new Set([
+  '/institution',
+  '/what-we-do',
+  '/talent',
+  '/advisory',
+  '/markets',
+  '/athletes',
+  '/insights',
+  '/network',
+  '/careers',
+  '/contact',
+]);
+
+function priority(route: string) {
+  if (HIGH_PRIORITY_ROUTES.has(route)) return 1.0;
+  if (SECTION_ROOTS.has(route)) return 0.8;
+  return 0.6;
+}
+
 const routes = [
   '/',
   '/institution',
@@ -46,25 +67,46 @@ const routes = [
   '/contact',
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const now = new Date();
   const entries: MetadataRoute.Sitemap = [];
 
   for (const locale of locales) {
     for (const route of routes) {
       entries.push({
         url: `${SITE}/${locale}${route === '/' ? '' : route}`,
+        lastModified: now,
         changeFrequency: route === '/' ? 'weekly' : 'monthly',
-        priority: route === '/' ? 1 : 0.7,
+        priority: priority(route),
       });
     }
-    // Athlete profiles
+
     for (const a of athletes) {
       entries.push({
         url: `${SITE}/${locale}/athletes/${a.slug}`,
+        lastModified: now,
         changeFrequency: 'monthly',
-        priority: 0.6,
+        priority: 0.7,
       });
     }
+  }
+
+  // Articles from CMS
+  try {
+    const articles = await listArticles();
+    const articleItems = articles.filter((a) => a.type === 'article');
+    for (const locale of locales) {
+      for (const a of articleItems) {
+        entries.push({
+          url: `${SITE}/${locale}/insights/articles/${a.slug}`,
+          lastModified: a.date ? new Date(a.date) : now,
+          changeFrequency: 'monthly',
+          priority: 0.65,
+        });
+      }
+    }
+  } catch {
+    // CMS unavailable at build time — skip dynamic articles
   }
 
   return entries;

@@ -36,7 +36,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://sadarasport.sa'),
+  metadataBase: new URL('https://www.sadarasport.sa'),
   title: { default: 'Sadara Sports — صدارة الرياضية', template: '%s · Sadara Sports' },
   description:
     'An institution, not an agency. Sadara represents and develops athletes, advises clubs and federations, and connects markets — one institution, three strategic units.',

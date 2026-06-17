@@ -8,6 +8,9 @@ import { SplitBand, CTASection } from '@/components/sections/Blocks';
 import { CountUp } from '@/components/motion/CountUp';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { Tag } from '@/components/ui/Tag';
+import { AthleteJsonLd } from '@/components/layout/JsonLd';
+
+const SITE = 'https://www.sadarasport.sa';
 
 export async function generateStaticParams() {
   const athletes = await listAthletes();
@@ -23,7 +26,33 @@ export async function generateMetadata({
   const tr = pick(isLocale(locale) ? locale : 'en');
   const a = await getAthlete(slug);
   if (!a) return { title: 'Athlete' };
-  return { title: tr(a.name), description: tr(a.bio) };
+  const canonicalUrl = `${SITE}/${locale}/athletes/${slug}`;
+  const altLocale = locale === 'ar' ? 'en' : 'ar';
+  return {
+    title: tr(a.name),
+    description: tr(a.bio),
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        'x-default': `${SITE}/ar/athletes/${slug}`,
+        ar: `${SITE}/ar/athletes/${slug}`,
+        en: `${SITE}/en/athletes/${slug}`,
+      },
+    },
+    openGraph: {
+      title: tr(a.name),
+      description: tr(a.bio),
+      url: canonicalUrl,
+      type: 'profile',
+      ...(a.photoUrl ? { images: [{ url: a.photoUrl, width: 1200, height: 630, alt: tr(a.name) }] } : {}),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: tr(a.name),
+      description: tr(a.bio),
+      ...(a.photoUrl ? { images: [a.photoUrl] } : {}),
+    },
+  };
 }
 
 export default async function AthleteProfilePage({
@@ -40,6 +69,14 @@ export default async function AthleteProfilePage({
 
   return (
     <>
+      <AthleteJsonLd
+        name={tr(a.name)}
+        description={tr(a.bio)}
+        image={a.photoUrl}
+        jobTitle={tr(a.position)}
+        memberOf={tr(a.club)}
+        url={`${SITE}/${loc}/athletes/${slug}`}
+      />
       <PageHero
         locale={loc}
         kicker={`${a.tier} · ${tr(a.position)}`}

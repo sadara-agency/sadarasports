@@ -40,15 +40,19 @@ export function DocEditor({
 
   return (
     <div className="max-w-4xl">
-      <div className="sticky top-0 z-10 -mx-8 mb-6 flex items-center justify-between border-b border-white/10 bg-[#0c0e22]/95 px-8 py-4 backdrop-blur">
+      <div
+        className="sticky top-0 z-10 -mx-8 mb-6 flex items-center justify-between border-b px-8 py-4 backdrop-blur"
+        style={{ background: 'color-mix(in srgb, var(--adm-bg) 95%, transparent)', borderColor: 'var(--adm-border)' }}
+      >
         <div>
           <h1 className="text-xl font-semibold">{title}</h1>
-          {msg && <p className="mt-0.5 text-xs text-white/55">{msg}</p>}
+          {msg && <p className="mt-0.5 text-xs" style={{ color: 'var(--adm-text-sm)' }}>{msg}</p>}
         </div>
         <button
           onClick={save}
           disabled={!dirty || saving}
-          className="rounded-lg bg-[#3C3CFA] px-5 py-2 text-sm font-medium transition-opacity disabled:opacity-40"
+          className="rounded-lg px-5 py-2 text-sm font-medium text-white transition-opacity disabled:opacity-40"
+          style={{ background: 'var(--adm-accent)' }}
         >
           {saving ? 'Saving…' : dirty ? 'Save changes' : 'Saved'}
         </button>
@@ -56,7 +60,11 @@ export function DocEditor({
 
       <div className="space-y-6 pb-24">
         {Object.entries(data).map(([k, v]) => (
-          <section key={k} className="rounded-xl border border-white/10 bg-white/[0.02] p-5">
+          <section
+            key={k}
+            className="rounded-xl border p-5"
+            style={{ borderColor: 'var(--adm-border)', background: 'var(--adm-input-bg)' }}
+          >
             <AutoField value={v} path={[k]} label={labelize(k)} onChange={onChange} />
           </section>
         ))}

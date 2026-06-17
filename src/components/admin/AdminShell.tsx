@@ -78,111 +78,75 @@ export function AdminShell({
   return (
     <div
       dir={ar ? 'rtl' : 'ltr'}
-      className={cn(
-        'min-h-screen',
-        ar ? 'font-ar' : 'font-en',
-        dark ? 'bg-[#0c0e22] text-white' : 'bg-[#f7f7f4] text-[#0a0a0f]',
-      )}
+      data-theme={theme}
+      className={cn('admin-shell min-h-screen', ar ? 'font-ar' : 'font-en')}
+      style={{ background: 'var(--adm-bg)', color: 'var(--adm-text)' }}
     >
       <div className="flex">
         <aside
-          className={cn(
-            'sticky top-0 flex h-screen w-64 shrink-0 flex-col border-e',
-            dark
-              ? 'border-white/10 bg-[#11132B]'
-              : 'border-black/10 bg-white',
-          )}
+          className="sticky top-0 flex h-screen w-64 shrink-0 flex-col border-e"
+          style={{ background: 'var(--adm-surface)', borderColor: 'var(--adm-border)' }}
         >
           <div className="px-5 py-5">
             <Link href="/admin">
               <Image
-                src={dark ? '/brand/logo-lockup-on-navy.svg' : '/brand/logo-lockup-on-white.svg'}
+                src={dark ? '/brand/logo-lockup-on-navy.svg' : '/brand/logo-lockup-blue.svg'}
                 alt="Sadara"
                 width={120}
                 height={36}
                 priority
-                onError={(e) => {
-                  // fallback to navy logo if light variant missing
-                  (e.currentTarget as HTMLImageElement).src = '/brand/logo-lockup-on-navy.svg';
-                }}
               />
             </Link>
           </div>
           <nav className="flex-1 overflow-y-auto px-3 pb-6">
-            <SectionLabel dark={dark}>{tr('Content')}</SectionLabel>
+            <SectionLabel>{tr('Content')}</SectionLabel>
             {DOC_LINKS.map((l) => (
-              <NavLink
-                key={l.href}
-                href={l.href}
-                active={pathname === l.href}
-                label={tr(l.label)}
-                dark={dark}
-              />
+              <NavLink key={l.href} href={l.href} active={pathname === l.href} label={tr(l.label)} />
             ))}
-            <SectionLabel dark={dark}>{tr('Lists')}</SectionLabel>
+            <SectionLabel>{tr('Lists')}</SectionLabel>
             {LIST_LINKS.map((l) => (
-              <NavLink
-                key={l.href}
-                href={l.href}
-                active={pathname.startsWith(l.href)}
-                label={tr(l.label)}
-                dark={dark}
-              />
+              <NavLink key={l.href} href={l.href} active={pathname.startsWith(l.href)} label={tr(l.label)} />
             ))}
           </nav>
-          <div className={cn('border-t p-4 text-xs', dark ? 'border-white/10' : 'border-black/10')}>
-            <div className={cn('truncate', dark ? 'text-white/50' : 'text-black/50')}>{email}</div>
+          <div className="border-t p-4 text-xs adm-divider" style={{ borderColor: 'var(--adm-border)' }}>
+            <div className="truncate" style={{ color: 'var(--adm-text-sm)' }}>{email}</div>
             <div className="mt-3 flex items-center gap-2">
-              {/* Lang toggle */}
               <button
                 onClick={() => setLocale(ar ? 'en' : 'ar')}
-                className={cn(
-                  'rounded px-2 py-1 text-[11px] font-mono font-semibold tracking-wider transition-colors',
-                  dark
-                    ? 'bg-white/10 text-white hover:bg-white/20'
-                    : 'bg-black/8 text-[#0a0a0f] hover:bg-black/15',
-                )}
+                className="rounded px-2 py-1 text-[11px] font-mono font-semibold tracking-wider transition-colors"
+                style={{ background: 'var(--adm-hover)', color: 'var(--adm-text)' }}
               >
                 {ar ? 'EN' : 'AR'}
               </button>
-              {/* Theme toggle */}
               <button
                 onClick={() => setTheme(dark ? 'light' : 'dark')}
-                className={cn(
-                  'rounded px-2 py-1 text-[13px] transition-colors',
-                  dark
-                    ? 'bg-white/10 hover:bg-white/20'
-                    : 'bg-black/8 hover:bg-black/15',
-                )}
+                className="rounded px-2 py-1 text-[13px] transition-colors"
+                style={{ background: 'var(--adm-hover)' }}
                 aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 {dark ? '☀️' : '🌙'}
               </button>
             </div>
-            <button
-              onClick={signOut}
-              className="mt-2 text-[#FF453A] hover:underline"
-            >
+            <button onClick={signOut} className="mt-2 hover:underline" style={{ color: 'var(--adm-danger)' }}>
               {tr('Sign out')}
             </button>
           </div>
         </aside>
 
         <main className="min-w-0 flex-1">
-          <div className={cn('flex items-center justify-between border-b px-8 py-4', dark ? 'border-white/10' : 'border-black/10')}>
-            <span className={dark ? 'text-sm text-white/50' : 'text-sm text-black/50'}>
+          <div
+            className="flex items-center justify-between border-b px-8 py-4"
+            style={{ borderColor: 'var(--adm-border)' }}
+          >
+            <span className="text-sm" style={{ color: 'var(--adm-text-sm)' }}>
               {tr('Content management')}
             </span>
             <a
               href="/en"
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(
-                'rounded-lg border px-3 py-1.5 text-sm transition-colors',
-                dark
-                  ? 'border-white/15 text-white/80 hover:bg-white/5'
-                  : 'border-black/15 text-black/70 hover:bg-black/5',
-              )}
+              className="rounded-lg border px-3 py-1.5 text-sm transition-colors hover:opacity-80"
+              style={{ borderColor: 'var(--adm-border-md)', color: 'var(--adm-text-md)' }}
             >
               {tr('View live site')} ↗
             </a>
@@ -194,31 +158,26 @@ export function AdminShell({
   );
 }
 
-function SectionLabel({ children, dark }: { children: React.ReactNode; dark: boolean }) {
+function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className={cn(
-      'px-3 pb-2 pt-5 font-mono text-[10px] uppercase tracking-[0.18em]',
-      dark ? 'text-white/35' : 'text-black/35',
-    )}>
+    <div
+      className="px-3 pb-2 pt-5 font-mono text-[10px] uppercase tracking-[0.18em]"
+      style={{ color: 'var(--adm-text-xs)' }}
+    >
       {children}
     </div>
   );
 }
 
-function NavLink({ href, active, label, dark }: { href: string; active: boolean; label: string; dark: boolean }) {
+function NavLink({ href, active, label }: { href: string; active: boolean; label: string }) {
   return (
     <Link
       href={href}
-      className={cn(
-        'block rounded-lg px-3 py-2 text-sm transition-colors',
-        active
-          ? dark
-            ? 'bg-[#3C3CFA]/20 text-white'
-            : 'bg-[#3C3CFA]/10 text-[#3C3CFA]'
-          : dark
-            ? 'text-white/65 hover:bg-white/5 hover:text-white'
-            : 'text-black/60 hover:bg-black/5 hover:text-[#0a0a0f]',
-      )}
+      className={cn('block rounded-lg px-3 py-2 text-sm transition-colors')}
+      style={active
+        ? { background: 'rgba(60,60,250,0.15)', color: 'var(--adm-accent)' }
+        : { color: 'var(--adm-text-sm)' }
+      }
     >
       {label}
     </Link>

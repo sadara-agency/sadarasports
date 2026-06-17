@@ -88,9 +88,74 @@
   }
 }
 
-/* Custom cursor — hidden on touch devices. */
+/* ── Admin CMS theme tokens ─────────────────────────────────────────────── */
+/* These vars are consumed by ALL admin components via Tailwind arbitrary values
+   or plain CSS. The shell root div carries data-theme="dark|light". */
+.admin-shell[data-theme='dark'],
+.admin-shell[data-theme='dark'] * {
+  --adm-bg:        #0c0e22;
+  --adm-surface:   #11132b;
+  --adm-surface-2: #1a1d3a;
+  --adm-text:      #ffffff;
+  --adm-text-md:   rgba(255,255,255,0.75);
+  --adm-text-sm:   rgba(255,255,255,0.55);
+  --adm-text-xs:   rgba(255,255,255,0.40);
+  --adm-border:    rgba(255,255,255,0.10);
+  --adm-border-md: rgba(255,255,255,0.15);
+  --adm-hover:     rgba(255,255,255,0.05);
+  --adm-input-bg:  rgba(255,255,255,0.03);
+  --adm-accent:    #3C3CFA;
+  --adm-danger:    #FF453A;
+}
+.admin-shell[data-theme='light'],
+.admin-shell[data-theme='light'] * {
+  --adm-bg:        #f7f7f4;
+  --adm-surface:   #ffffff;
+  --adm-surface-2: #efefea;
+  --adm-text:      #0a0a0f;
+  --adm-text-md:   rgba(0,0,0,0.70);
+  --adm-text-sm:   rgba(0,0,0,0.50);
+  --adm-text-xs:   rgba(0,0,0,0.35);
+  --adm-border:    rgba(0,0,0,0.08);
+  --adm-border-md: rgba(0,0,0,0.12);
+  --adm-hover:     rgba(0,0,0,0.04);
+  --adm-input-bg:  rgba(0,0,0,0.02);
+  --adm-accent:    #3C3CFA;
+  --adm-danger:    #e53e3e;
+}
+
+/* Utility classes consumed by admin components */
+.adm-bg        { background: var(--adm-bg); }
+.adm-surface   { background: var(--adm-surface); }
+.adm-surface-2 { background: var(--adm-surface-2); }
+.adm-text      { color: var(--adm-text); }
+.adm-text-md   { color: var(--adm-text-md); }
+.adm-text-sm   { color: var(--adm-text-sm); }
+.adm-text-xs   { color: var(--adm-text-xs); }
+.adm-border    { border-color: var(--adm-border); }
+.adm-border-md { border-color: var(--adm-border-md); }
+.adm-input     { background: var(--adm-input-bg); border-color: var(--adm-border); color: var(--adm-text); }
+.adm-input::placeholder { color: var(--adm-text-xs); }
+.adm-btn-ghost {
+  border-color: var(--adm-border-md);
+  background: var(--adm-hover);
+  color: var(--adm-text-md);
+}
+.adm-btn-ghost:hover {
+  border-color: var(--adm-accent);
+  color: var(--adm-text);
+}
+.adm-btn-primary { background: var(--adm-accent); color: #fff; }
+.adm-row { border-color: var(--adm-border); background: var(--adm-input-bg); color: var(--adm-text-sm); }
+.adm-divider { border-color: var(--adm-border); }
+/* ── end admin tokens ────────────────────────────────────────────────────── */
+
+/* Custom cursor — public site only (not in /admin). */
 @media (hover: hover) and (pointer: fine) {
-  html, body, * { cursor: none !important; }
+  body:not(:has(.admin-shell)) * { cursor: none !important; }
+  body:not(:has(.admin-shell)) { cursor: none !important; }
+
+  body:has(.admin-shell) #custom-cursor { display: none !important; }
 
   #custom-cursor {
     position: fixed;

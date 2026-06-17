@@ -51,19 +51,20 @@ export function ArticlesManager({ initial }: { initial: ArticleRow[] }) {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Articles &amp; News</h1>
-          {msg && <p className="mt-0.5 text-xs text-white/55">{msg}</p>}
+          {msg && <p className="mt-0.5 text-xs" style={{ color: 'var(--adm-text-sm)' }}>{msg}</p>}
         </div>
         <button
           onClick={() => setEditing({ ...BLANK, sort: rows.length })}
-          className="rounded-lg bg-[#3C3CFA] px-4 py-2 text-sm font-medium"
+          className="rounded-lg px-4 py-2 text-sm font-medium"
+          style={{ background: 'var(--adm-accent)' }}
         >
           + New article
         </button>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-white/10">
+      <div className="overflow-hidden rounded-xl border" style={{ borderColor: 'var(--adm-border)' }}>
         <table className="w-full text-sm">
-          <thead className="bg-white/[0.03] text-left text-white/50">
+          <thead className="text-left" style={{ background: 'var(--adm-input-bg)', color: 'var(--adm-text-sm)' }}>
             <tr>
               <th className="px-4 py-2 font-medium">Order</th>
               <th className="px-4 py-2 font-medium">Title</th>
@@ -74,7 +75,7 @@ export function ArticlesManager({ initial }: { initial: ArticleRow[] }) {
           </thead>
           <tbody>
             {rows.map((r, i) => (
-              <tr key={r.id ?? r.slug} className="border-t border-white/5">
+              <tr key={r.id ?? r.slug} className="border-t" style={{ borderColor: 'var(--adm-border)' }}>
                 <td className="px-4 py-2">
                   <div className="flex gap-1">
                     <button onClick={() => move(i, -1)} disabled={i === 0} className="px-1 disabled:opacity-30">↑</button>
@@ -83,24 +84,24 @@ export function ArticlesManager({ initial }: { initial: ArticleRow[] }) {
                 </td>
                 <td className="px-4 py-2">
                   <div className="font-medium">{r.title_en || '(no title)'}</div>
-                  <div dir="rtl" className="text-xs text-white/45">{r.title_ar}</div>
+                  <div dir="rtl" className="text-xs" style={{ color: 'var(--adm-text-xs)' }}>{r.title_ar}</div>
                 </td>
                 <td className="px-4 py-2 capitalize">{r.type}</td>
                 <td className="px-4 py-2">
-                  <span className={r.published ? 'text-[#34C759]' : 'text-white/40'}>
+                  <span className={r.published ? 'text-[#34C759]' : ''} style={r.published ? undefined : { color: 'var(--adm-text-xs)' }}>
                     {r.published ? 'Published' : 'Draft'}
                   </span>
                 </td>
                 <td className="px-4 py-2 text-right">
-                  <button onClick={() => setEditing(r)} className="text-[#3C3CFA] hover:underline">Edit</button>
+                  <button onClick={() => setEditing(r)} className="text-[#3C3CFA]">Edit</button>
                   {r.id && (
-                    <button onClick={() => onDelete(r.id!)} className="ms-3 text-[#FF453A] hover:underline">Delete</button>
+                    <button onClick={() => onDelete(r.id!)} className="ms-3 text-[#FF453A]">Delete</button>
                   )}
                 </td>
               </tr>
             ))}
             {rows.length === 0 && (
-              <tr><td colSpan={5} className="px-4 py-8 text-center text-white/40">No articles yet.</td></tr>
+              <tr><td colSpan={5} className="px-4 py-8 text-center" style={{ color: 'var(--adm-text-xs)' }}>No articles yet.</td></tr>
             )}
           </tbody>
         </table>
@@ -123,17 +124,17 @@ function ArticleEditor({
     label: string; ar: string; en: string; keyAr: keyof ArticleRow; keyEn: keyof ArticleRow; long?: boolean;
   }) => (
     <div className="space-y-2">
-      <div className="text-sm font-medium text-white/75">{label}</div>
+      <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>{label}</div>
       <div className="grid gap-2 sm:grid-cols-2">
         {long ? (
-          <textarea dir="rtl" lang="ar" rows={3} value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<ArticleRow>)} className="rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm" />
+          <textarea dir="rtl" lang="ar" rows={3} value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<ArticleRow>)} className="rounded-lg px-3 py-2 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
         ) : (
-          <input dir="rtl" lang="ar" value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<ArticleRow>)} className="h-10 rounded-lg border border-white/15 bg-white/5 px-3 text-sm" />
+          <input dir="rtl" lang="ar" value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<ArticleRow>)} className="h-10 rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
         )}
         {long ? (
-          <textarea dir="ltr" lang="en" rows={3} value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<ArticleRow>)} className="rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm" />
+          <textarea dir="ltr" lang="en" rows={3} value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<ArticleRow>)} className="rounded-lg px-3 py-2 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
         ) : (
-          <input dir="ltr" lang="en" value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<ArticleRow>)} className="h-10 rounded-lg border border-white/15 bg-white/5 px-3 text-sm" />
+          <input dir="ltr" lang="en" value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<ArticleRow>)} className="h-10 rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
         )}
       </div>
     </div>
@@ -142,18 +143,19 @@ function ArticleEditor({
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/60" onClick={onCancel}>
       <div
-        className="h-full w-full max-w-2xl overflow-y-auto bg-[#11132B] p-8 text-white"
+        className="h-full w-full max-w-2xl overflow-y-auto p-8"
+        style={{ background: 'var(--adm-surface)', color: 'var(--adm-text)' }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-lg font-semibold">{row.id ? 'Edit article' : 'New article'}</h2>
-          <button onClick={onCancel} className="text-2xl text-white/60 hover:text-white">✕</button>
+          <button onClick={onCancel} className="text-2xl" style={{ color: 'var(--adm-text-sm)' }}>✕</button>
         </div>
 
         <div className="space-y-5">
           <div className="space-y-1.5">
-            <div className="text-sm font-medium text-white/75">Slug (URL, lowercase-dashes)</div>
-            <input value={draft.slug} onChange={(e) => set({ slug: e.target.value })} className="h-10 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-sm" />
+            <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Slug (URL, lowercase-dashes)</div>
+            <input value={draft.slug} onChange={(e) => set({ slug: e.target.value })} className="h-10 w-full rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
           </div>
 
           <Pair label="Category" ar={draft.category_ar} en={draft.category_en} keyAr="category_ar" keyEn="category_en" />
@@ -163,19 +165,19 @@ function ArticleEditor({
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <div className="text-sm font-medium text-white/75">Date (text)</div>
-              <input value={draft.date} onChange={(e) => set({ date: e.target.value })} placeholder="e.g. June 2026" className="h-10 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-sm" />
+              <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Date (text)</div>
+              <input value={draft.date} onChange={(e) => set({ date: e.target.value })} placeholder="e.g. June 2026" className="h-10 w-full rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
             </div>
             <div className="space-y-1.5">
-              <div className="text-sm font-medium text-white/75">Type</div>
-              <select value={draft.type} onChange={(e) => set({ type: e.target.value as ArticleRow['type'] })} className="h-10 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-sm">
-                {TYPES.map((t) => <option key={t} value={t} className="bg-[#11132B] capitalize">{t}</option>)}
+              <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Type</div>
+              <select value={draft.type} onChange={(e) => set({ type: e.target.value as ArticleRow['type'] })} className="h-10 w-full rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }}>
+                {TYPES.map((t) => <option key={t} value={t} className="capitalize" style={{ background: 'var(--adm-surface)' }}>{t}</option>)}
               </select>
             </div>
           </div>
 
           <div className="space-y-2">
-            <div className="text-sm font-medium text-white/75">Image</div>
+            <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Image</div>
             <ImageInput value={draft.image_url ?? ''} onChange={(v) => set({ image_url: v || null })} />
           </div>
 
@@ -185,8 +187,8 @@ function ArticleEditor({
         </div>
 
         <div className="mt-8 flex gap-3">
-          <button onClick={() => onSave(draft)} className="rounded-lg bg-[#3C3CFA] px-5 py-2 text-sm font-medium">Save</button>
-          <button onClick={onCancel} className="rounded-lg border border-white/15 px-5 py-2 text-sm">Cancel</button>
+          <button onClick={() => onSave(draft)} className="rounded-lg px-5 py-2 text-sm font-medium" style={{ background: 'var(--adm-accent)' }}>Save</button>
+          <button onClick={onCancel} className="rounded-lg px-5 py-2 text-sm" style={{ borderColor: 'var(--adm-border-md)', border: '1px solid' }}>Cancel</button>
         </div>
       </div>
     </div>

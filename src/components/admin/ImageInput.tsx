@@ -31,9 +31,12 @@ export function ImageInput({ value, onChange }: { value: string; onChange: (v: s
     <div className="flex items-start gap-3">
       {value ? (
         // eslint-disable-next-line @next/next/no-img-element -- admin preview, not a public LCP image
-        <img src={value} alt="" className="h-16 w-16 rounded-lg border border-white/15 object-cover" />
+        <img src={value} alt="" className="h-16 w-16 rounded-lg object-cover" style={{ border: '1px solid var(--adm-border-md)' }} />
       ) : (
-        <div className="flex h-16 w-16 items-center justify-center rounded-lg border border-dashed border-white/20 text-[10px] text-white/40">
+        <div
+          className="flex h-16 w-16 items-center justify-center rounded-lg border border-dashed text-[10px]"
+          style={{ borderColor: 'var(--adm-border-md)', color: 'var(--adm-text-xs)' }}
+        >
           none
         </div>
       )}
@@ -42,13 +45,21 @@ export function ImageInput({ value, onChange }: { value: string; onChange: (v: s
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="https://… or upload"
-          className="h-9 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-sm outline-none focus:border-[#3C3CFA]"
+          className="h-9 w-full rounded-lg px-3 text-sm outline-none"
+          style={{
+            border: '1px solid var(--adm-border-md)',
+            background: 'var(--adm-input-bg)',
+            color: 'var(--adm-text)',
+          }}
         />
-        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/15 px-3 py-1.5 text-xs text-white/70 hover:bg-white/5">
+        <label
+          className="inline-flex cursor-pointer items-center gap-2 rounded-lg px-3 py-1.5 text-xs"
+          style={{ border: '1px solid var(--adm-border-md)', color: 'var(--adm-text-md)' }}
+        >
           {busy ? 'Uploading…' : 'Upload image'}
           <input type="file" accept="image/*" onChange={onFile} disabled={busy} className="hidden" />
         </label>
-        {error && <p className="text-xs text-[#FF453A]">{error}</p>}
+        {error && <p className="text-xs" style={{ color: 'var(--adm-danger)' }}>{error}</p>}
       </div>
     </div>
   );

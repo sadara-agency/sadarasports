@@ -13,6 +13,9 @@ type Props = {
 const labelize = (k: string | number) =>
   String(k).replace(/([A-Z])/g, ' $1').replace(/[_-]/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
 
+const inputCls =
+  'w-full rounded-lg border px-3 text-sm outline-none transition-colors focus:ring-1 focus:ring-[#3C3CFA]';
+
 export function AutoField({ value, path, label, onChange }: Props) {
   // Bilingual { ar, en } → paired inputs.
   if (isBilingual(value)) {
@@ -54,13 +57,14 @@ export function AutoField({ value, path, label, onChange }: Props) {
         <input
           value={value}
           onChange={(e) => onChange(path, e.target.value)}
-          className="h-10 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-sm outline-none focus:border-[#3C3CFA]"
+          className={`h-10 ${inputCls}`}
+          style={{ borderColor: 'var(--adm-border-md)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)' }}
         />
       </div>
     );
   }
 
-  // Number / boolean.
+  // Number.
   if (typeof value === 'number') {
     return (
       <div className="space-y-1.5">
@@ -69,11 +73,14 @@ export function AutoField({ value, path, label, onChange }: Props) {
           type="number"
           value={value}
           onChange={(e) => onChange(path, e.target.value === '' ? 0 : Number(e.target.value))}
-          className="h-10 w-40 rounded-lg border border-white/15 bg-white/5 px-3 text-sm outline-none focus:border-[#3C3CFA]"
+          className={`h-10 w-40 ${inputCls}`}
+          style={{ borderColor: 'var(--adm-border-md)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)' }}
         />
       </div>
     );
   }
+
+  // Boolean.
   if (typeof value === 'boolean') {
     return (
       <label className="flex items-center gap-2 text-sm">
@@ -94,18 +101,18 @@ export function AutoField({ value, path, label, onChange }: Props) {
     };
     const blank = makeBlank(value[0]);
     return (
-      <div className="space-y-3 rounded-xl border border-white/10 bg-white/[0.02] p-4">
+      <div className="space-y-3 rounded-xl border p-4" style={{ borderColor: 'var(--adm-border)', background: 'var(--adm-input-bg)' }}>
         {label && <FieldLabel>{label}</FieldLabel>}
         {value.map((item, i) => (
-          <div key={i} className="rounded-lg border border-white/10 bg-white/[0.03] p-3">
+          <div key={i} className="rounded-lg border p-3" style={{ borderColor: 'var(--adm-border)', background: 'var(--adm-surface)' }}>
             <div className="mb-2 flex items-center justify-between">
-              <span className="font-mono text-[11px] text-white/40">#{i + 1}</span>
+              <span className="font-mono text-[11px]" style={{ color: 'var(--adm-text-xs)' }}>#{i + 1}</span>
               <div className="flex gap-1.5 text-xs">
                 <RowBtn onClick={() => move(i, i - 1)} disabled={i === 0}>↑</RowBtn>
                 <RowBtn onClick={() => move(i, i + 1)} disabled={i === value.length - 1}>↓</RowBtn>
                 <RowBtn
                   onClick={() => onChange(path, value.filter((_, j) => j !== i))}
-                  className="text-[#FF453A]"
+                  danger
                 >
                   Remove
                 </RowBtn>
@@ -118,7 +125,8 @@ export function AutoField({ value, path, label, onChange }: Props) {
           <button
             type="button"
             onClick={() => onChange(path, [...value, blank])}
-            className="rounded-lg border border-dashed border-white/20 px-3 py-1.5 text-sm text-white/60 hover:border-[#3C3CFA] hover:text-white"
+            className="rounded-lg border border-dashed px-3 py-1.5 text-sm transition-colors hover:border-[#3C3CFA]"
+            style={{ borderColor: 'var(--adm-border-md)', color: 'var(--adm-text-sm)' }}
           >
             + Add item
           </button>
@@ -133,7 +141,7 @@ export function AutoField({ value, path, label, onChange }: Props) {
     return (
       <div className="space-y-4">
         {label && <SectionTitle>{label}</SectionTitle>}
-        <div className="space-y-4 border-s border-white/10 ps-4">
+        <div className="space-y-4 border-s ps-4" style={{ borderColor: 'var(--adm-border)' }}>
           {entries.map(([k, v]) => (
             <AutoField key={k} value={v} path={[...path, k]} label={labelize(k)} onChange={onChange} />
           ))}
@@ -150,13 +158,13 @@ export function AutoField({ value, path, label, onChange }: Props) {
         value=""
         onChange={(e) => onChange(path, e.target.value)}
         placeholder="(empty)"
-        className="h-10 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-sm outline-none focus:border-[#3C3CFA]"
+        className={`h-10 ${inputCls}`}
+        style={{ borderColor: 'var(--adm-border-md)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)' }}
       />
     </div>
   );
 }
 
-// Build an empty clone of an array element so "Add item" yields the right shape.
 function makeBlank(sample: unknown): unknown {
   if (sample === undefined) return undefined;
   if (isBilingual(sample)) return { ar: '', en: '' };
@@ -178,29 +186,47 @@ function LocaleInput({
   value: string; onChange: (v: string) => void;
   dir: 'rtl' | 'ltr'; lang: string; placeholder: string; long: boolean;
 }) {
-  const cls =
-    'w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm outline-none focus:border-[#3C3CFA]';
+  const style = { borderColor: 'var(--adm-border-md)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)' };
   return long ? (
-    <textarea dir={dir} lang={lang} placeholder={placeholder} rows={3} value={value}
-      onChange={(e) => onChange(e.target.value)} className={`${cls} resize-y`} />
+    <textarea
+      dir={dir} lang={lang} placeholder={placeholder} rows={3} value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className={`${inputCls} resize-y py-2`}
+      style={style}
+    />
   ) : (
-    <input dir={dir} lang={lang} placeholder={placeholder} value={value}
-      onChange={(e) => onChange(e.target.value)} className={`h-10 ${cls}`} />
+    <input
+      dir={dir} lang={lang} placeholder={placeholder} value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className={`h-10 ${inputCls}`}
+      style={style}
+    />
   );
 }
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <div className="text-sm font-medium text-white/75">{children}</div>;
+  return <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>{children}</div>;
 }
+
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <div className="text-base font-semibold text-white">{children}</div>;
+  return <div className="text-base font-semibold" style={{ color: 'var(--adm-text)' }}>{children}</div>;
 }
+
 function RowBtn({
-  children, onClick, disabled, className = '',
-}: { children: React.ReactNode; onClick: () => void; disabled?: boolean; className?: string }) {
+  children, onClick, disabled, danger,
+}: { children: React.ReactNode; onClick: () => void; disabled?: boolean; danger?: boolean }) {
   return (
-    <button type="button" onClick={onClick} disabled={disabled}
-      className={`rounded border border-white/15 px-2 py-0.5 hover:bg-white/10 disabled:opacity-30 ${className}`}>
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className="rounded border px-2 py-0.5 transition-colors disabled:opacity-30"
+      style={{
+        borderColor: 'var(--adm-border-md)',
+        color: danger ? 'var(--adm-danger)' : 'var(--adm-text-sm)',
+        background: 'var(--adm-hover)',
+      }}
+    >
       {children}
     </button>
   );

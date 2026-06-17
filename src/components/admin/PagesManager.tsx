@@ -47,21 +47,22 @@ export function PagesManager({ initial }: { initial: PageRow[] }) {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold">Pages</h1>
-          <p className="mt-0.5 text-xs text-white/55">
+          <p className="mt-0.5 text-xs" style={{ color: 'var(--adm-text-sm)' }}>
             {msg ?? 'Build custom pages from blocks. Published pages live at /en/<slug> and /ar/<slug>.'}
           </p>
         </div>
         <button
           onClick={() => setEditing({ ...BLANK, sort: rows.length })}
-          className="rounded-lg bg-[#3C3CFA] px-4 py-2 text-sm font-medium"
+          className="rounded-lg px-4 py-2 text-sm font-medium"
+          style={{ background: 'var(--adm-accent)', color: 'var(--adm-text)' }}
         >
           + New page
         </button>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-white/10">
+      <div className="overflow-hidden rounded-xl" style={{ border: '1px solid var(--adm-border)' }}>
         <table className="w-full text-sm">
-          <thead className="bg-white/[0.03] text-left text-white/50">
+          <thead className="text-left" style={{ background: 'var(--adm-input-bg)', color: 'var(--adm-text-sm)' }}>
             <tr>
               <th className="px-4 py-2 font-medium">Order</th>
               <th className="px-4 py-2 font-medium">Title</th>
@@ -73,7 +74,7 @@ export function PagesManager({ initial }: { initial: PageRow[] }) {
           </thead>
           <tbody>
             {rows.map((r, i) => (
-              <tr key={r.id ?? r.slug} className="border-t border-white/5">
+              <tr key={r.id ?? r.slug} className="border-t" style={{ borderColor: 'var(--adm-border)' }}>
                 <td className="px-4 py-2">
                   <div className="flex gap-1">
                     <button onClick={() => move(i, -1)} disabled={i === 0} className="px-1 disabled:opacity-30">↑</button>
@@ -82,25 +83,25 @@ export function PagesManager({ initial }: { initial: PageRow[] }) {
                 </td>
                 <td className="px-4 py-2">
                   <div className="font-medium">{r.title_en || '(untitled)'}</div>
-                  <div dir="rtl" className="text-xs text-white/45">{r.title_ar}</div>
+                  <div dir="rtl" className="text-xs" style={{ color: 'var(--adm-text-xs)' }}>{r.title_ar}</div>
                 </td>
-                <td className="px-4 py-2 font-mono text-xs text-white/60">/{r.slug}</td>
-                <td className="px-4 py-2 text-white/60">{r.blocks?.length ?? 0}</td>
+                <td className="px-4 py-2 font-mono text-xs" style={{ color: 'var(--adm-text-sm)' }}>/{r.slug}</td>
+                <td className="px-4 py-2" style={{ color: 'var(--adm-text-sm)' }}>{r.blocks?.length ?? 0}</td>
                 <td className="px-4 py-2">
-                  <span className={r.published ? 'text-[#34C759]' : 'text-white/40'}>
+                  <span className={r.published ? 'text-[#34C759]' : undefined} style={!r.published ? { color: 'var(--adm-text-xs)' } : undefined}>
                     {r.published ? 'Published' : 'Draft'}
                   </span>
                 </td>
                 <td className="px-4 py-2 text-right">
-                  <button onClick={() => setEditing(r)} className="text-[#3C3CFA] hover:underline">Edit</button>
+                  <button onClick={() => setEditing(r)} className="text-[#3C3CFA]">Edit</button>
                   {r.id && (
-                    <button onClick={() => onDelete(r.id!)} className="ms-3 text-[#FF453A] hover:underline">Delete</button>
+                    <button onClick={() => onDelete(r.id!)} className="ms-3 text-[#FF453A]">Delete</button>
                   )}
                 </td>
               </tr>
             ))}
             {rows.length === 0 && (
-              <tr><td colSpan={6} className="px-4 py-8 text-center text-white/40">No pages yet.</td></tr>
+              <tr><td colSpan={6} className="px-4 py-8 text-center" style={{ color: 'var(--adm-text-xs)' }}>No pages yet.</td></tr>
             )}
           </tbody>
         </table>

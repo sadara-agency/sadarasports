@@ -15,16 +15,19 @@ export default function AdminHome() {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Welcome back</h1>
-      <p className="mt-1 text-white/55">Pick a section to edit. Changes go live within seconds of saving.</p>
+      <p className="mt-1 text-sm" style={{ color: 'var(--adm-text-sm)' }}>
+        Pick a section to edit. Changes go live within seconds of saving.
+      </p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {CARDS.map((c) => (
           <Link
             key={c.href}
             href={c.href}
-            className="rounded-xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-[#3C3CFA]/50 hover:bg-white/[0.05]"
+            className="rounded-xl border p-5 transition-colors hover:border-[#3C3CFA]/60"
+            style={{ borderColor: 'var(--adm-border)', background: 'var(--adm-input-bg)' }}
           >
             <h2 className="font-medium">{c.title}</h2>
-            <p className="mt-1 text-sm text-white/50">{c.desc}</p>
+            <p className="mt-1 text-sm" style={{ color: 'var(--adm-text-sm)' }}>{c.desc}</p>
           </Link>
         ))}
       </div>

@@ -6,6 +6,9 @@ import { listArticles, getArticleBySlug } from '@/lib/content/insights';
 import { PageHero } from '@/components/sections/PageHero';
 import { Reveal } from '@/components/motion/Reveal';
 import { CTASection } from '@/components/sections/Blocks';
+import { ArticleJsonLd } from '@/components/layout/JsonLd';
+
+const SITE = 'https://www.sadarasport.sa';
 
 export async function generateStaticParams() {
   const articles = await listArticles();
@@ -23,7 +26,32 @@ export async function generateMetadata({
   const tr = pick(isLocale(locale) ? locale : 'en');
   const a = await getArticleBySlug(slug);
   if (!a) return { title: 'Article' };
-  return { title: tr(a.title), description: tr(a.excerpt) };
+  const canonicalUrl = `${SITE}/${locale}/insights/articles/${slug}`;
+  return {
+    title: tr(a.title),
+    description: tr(a.excerpt),
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        'x-default': `${SITE}/ar/insights/articles/${slug}`,
+        ar: `${SITE}/ar/insights/articles/${slug}`,
+        en: `${SITE}/en/insights/articles/${slug}`,
+      },
+    },
+    openGraph: {
+      title: tr(a.title),
+      description: tr(a.excerpt),
+      url: canonicalUrl,
+      type: 'article',
+      ...(a.image ? { images: [{ url: a.image, width: 1200, height: 630, alt: tr(a.title) }] } : {}),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: tr(a.title),
+      description: tr(a.excerpt),
+      ...(a.image ? { images: [a.image] } : {}),
+    },
+  };
 }
 
 export default async function ArticleDetailPage({
@@ -40,6 +68,14 @@ export default async function ArticleDetailPage({
 
   return (
     <>
+      <ArticleJsonLd
+        headline={tr(a.title)}
+        description={tr(a.excerpt)}
+        image={a.image}
+        datePublished={a.date}
+        url={`${SITE}/${loc}/insights/articles/${slug}`}
+        locale={loc}
+      />
       <PageHero
         locale={loc}
         kicker={tr(a.category)}
