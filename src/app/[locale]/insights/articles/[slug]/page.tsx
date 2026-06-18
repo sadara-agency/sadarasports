@@ -102,7 +102,7 @@ export default async function ArticleDetailPage({
           {a.body ? (
             <Reveal>
               <div
-                className="prose prose-neutral max-w-none dark:prose-invert"
+                className="prose prose-neutral max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-h2:text-h2 prose-h3:text-h3 prose-h2:mt-12 prose-h3:mt-6 prose-h3:mb-2 prose-p:text-base prose-p:leading-relaxed prose-p:text-ink prose-p:mb-5 prose-blockquote:border-l-4 prose-blockquote:border-electric prose-blockquote:ps-6 prose-blockquote:not-italic prose-blockquote:text-lg prose-blockquote:font-medium prose-blockquote:text-ink prose-strong:text-ink prose-li:text-ink prose-li:leading-relaxed prose-ol:my-6 prose-ul:my-6"
                 dangerouslySetInnerHTML={{ __html: a.body[loc] ?? a.body.en }}
               />
             </Reveal>
