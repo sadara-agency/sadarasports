@@ -4,6 +4,7 @@ import { Inter_Tight, JetBrains_Mono } from 'next/font/google';
 import { headers } from 'next/headers';
 import { OrganizationJsonLd } from '@/components/layout/JsonLd';
 import { CustomCursor } from '@/components/layout/CustomCursor';
+import { IntroOverlay } from '@/components/layout/IntroOverlay';
 import '@/styles/globals.css';
 
 const ibmPlexArabic = localFont({
@@ -81,7 +82,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
+      <head>
+        {/* No-flash: set the intro flag before first paint so the overlay is
+            hidden instantly for returning visitors (CSS keys off data-intro). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var s=sessionStorage.getItem('sadara_intro_seen');document.documentElement.dataset.intro=s?'seen':'show'}catch(e){document.documentElement.dataset.intro='seen'}",
+          }}
+        />
+      </head>
       <body className={`${ibmPlexArabic.variable} ${interTight.variable} ${jetbrainsMono.variable}`}>
+        <IntroOverlay />
         <OrganizationJsonLd />
         <CustomCursor />
         {children}
