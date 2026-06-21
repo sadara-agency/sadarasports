@@ -8,7 +8,7 @@ export function OrganizationJsonLd() {
     name: 'Sadara Sports',
     alternateName: 'صدارة الرياضية',
     url: SITE,
-    logo: `${SITE}/brand/logo-lockup-on-navy.svg`,
+    logo: `${SITE}/brand/logo-icon.png`,
     description:
       'An institution, not an agency. Sadara represents and develops athletes, advises clubs and federations, and connects markets — one institution, three strategic units.',
     address: {
@@ -69,7 +69,7 @@ export function ArticleJsonLd({ headline, description, image, datePublished, url
       '@type': 'Organization',
       name: 'Sadara Sports',
       url: SITE,
-      logo: { '@type': 'ImageObject', url: `${SITE}/brand/logo-lockup-on-navy.svg` },
+      logo: { '@type': 'ImageObject', url: `${SITE}/brand/logo-icon.png` },
     },
   };
 

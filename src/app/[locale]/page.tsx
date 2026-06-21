@@ -11,12 +11,16 @@ export async function generateMetadata({
   const { locale } = await params;
   const isAr = locale === 'ar';
   return {
-    title: isAr ? 'صدارة الرياضية — مؤسسة، لا وكالة' : 'Sadara Sports — An Institution, Not an Agency',
+    title: isAr
+      ? 'صدارة — حيث تبدأ رحلة المحترفين'
+      : 'Sadara — Where the Journey of Professional Athletes Begins',
     description: isAr
       ? 'صدارة الرياضية: مؤسسة تُمثّل المواهب الرياضية، وتستشير الأندية والاتحادات، وتربط أسواق المنطقة والعالم.'
       : 'Sadara Sports represents and develops athletes, advises clubs and federations, and connects markets across MENA and beyond.',
     openGraph: {
-      title: isAr ? 'صدارة الرياضية — مؤسسة، لا وكالة' : 'Sadara Sports — An Institution, Not an Agency',
+      title: isAr
+        ? 'صدارة — حيث تبدأ رحلة المحترفين'
+        : 'Sadara — Where the Journey of Professional Athletes Begins',
       description: isAr
         ? 'مؤسسة تُمثّل المواهب، وتستشير الأندية والاتحادات، وتربط الأسواق.'
         : 'We represent talent, advise clubs and federations, and connect markets.',
