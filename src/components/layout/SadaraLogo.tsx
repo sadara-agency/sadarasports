@@ -15,7 +15,8 @@ export function SadaraLogo({ className }: { className?: string }) {
       viewBox="0 0 173 40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn('h-auto w-auto', className)}
+      className={cn(className)}
+      style={{ width: '100%', height: 'auto', display: 'block', overflow: 'visible' }}
       aria-hidden="true"
     >
       <g className="sl-wordmark" fill="#E4E5F3">
