@@ -1,20 +1,24 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { isLocale, type Locale, pick } from '@/lib/i18n';
-import { ModuleDetail } from '@/components/sections/ModuleDetail';
-import { getDoc } from '@/lib/content';
+import { isLocale } from '@/lib/i18n';
+import { ComingSoon } from '@/components/sections/ComingSoon';
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { locale } = await params;
-  const tr = pick(isLocale(locale) ? locale : 'en');
-  const { tiers } = await getDoc('talent');
-  return { title: tr(tiers.title), description: tr(tiers.lead) };
-}
+export const metadata: Metadata = {
+  title: 'Coming Soon — Sadara Sports',
+  robots: { index: false, follow: false },
+};
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const { tiers } = await getDoc('talent');
-  const images = (await getDoc('images')).images;
-  return <ModuleDetail locale={locale as Locale} data={tiers} image={images.pageHero.talent} />;
+
+  return (
+    <ComingSoon
+      backHref={`/${locale}/talent`}
+      backLabel="Back to Talent"
+      title="Coming soon."
+      lead="The tier system page is on its way. Return to Talent Management in the meantime."
+      kicker="In progress"
+    />
+  );
 }

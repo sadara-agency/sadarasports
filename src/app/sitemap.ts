@@ -38,7 +38,6 @@ const routes = [
   '/what-we-do',
   '/talent',
   '/talent/elite-360',
-  '/talent/tiers',
   '/talent/services',
   '/talent/join',
   '/advisory',

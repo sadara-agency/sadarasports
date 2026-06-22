@@ -33,7 +33,6 @@ export const talentDivision: DivisionData = {
   ],
   modules: [
     { no: '01', title: { ar: 'Elite 360 — المنصة', en: 'Elite 360 — the platform' }, desc: { ar: 'نظام التطوير والمسارات الأربعة الذي يحوّل البيانات إلى قرارات.', en: 'The development system and four tracks that turn data into decisions.' }, href: '/talent/elite-360' },
-    { no: '02', title: { ar: 'نظام الفئات', en: 'The tier system' }, desc: { ar: 'A+ / A / B+ / B وحزمة A+ Elite — تمثيل متدرّج حسب المرحلة.', en: 'A+ / A / B+ / B and the A+ Elite bundle — representation tiered by stage.' }, href: '/talent/tiers' },
     { no: '03', title: { ar: 'الخدمات', en: 'Services' }, desc: { ar: 'تمثيل، وأداء وتطوير، وعلامة تجارية وتجاري، وانتقال مهني.', en: 'Representation; performance & development; brand & commercial; career transition.' }, href: '/talent/services' },
     { no: '04', title: { ar: 'للاعبين والعائلات', en: 'For athletes & families' }, desc: { ar: 'كيف يعمل التمثيل، وكيف تبدأ رحلتك مع صدارة.', en: 'How representation works, and how to begin your journey with Sadara.' }, href: '/talent/join' },
   ],
@@ -84,7 +83,7 @@ export const elite360: ModuleData = {
     title: { ar: 'طوّر كأصلٍ طويل الأمد.', en: 'Develop as a long-term asset.' },
     lead: { ar: 'تعرّف على كيفية دخول لاعبك إلى نظام Elite 360.', en: 'Learn how your athlete enters the Elite 360 system.' },
     primary: { label: { ar: 'تحدّث إلينا', en: 'Talk to us' }, href: '/talent/join' },
-    secondary: { label: { ar: 'نظام الفئات', en: 'The tier system' }, href: '/talent/tiers' },
+    secondary: { label: { ar: 'الخدمات', en: 'Services' }, href: '/talent/services' },
   },
 };
 

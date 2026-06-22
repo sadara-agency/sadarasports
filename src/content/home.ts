@@ -19,7 +19,6 @@ export const homePillars: HomePillar[] = [
     href: '/talent',
     children: [
       { label: { ar: 'إيليت 360 — المنصّة', en: 'Elite 360 — the platform' }, href: '/talent/elite-360' },
-      { label: { ar: 'نظام الفئات', en: 'The Tier System' }, href: '/talent/tiers' },
       { label: { ar: 'الخدمات', en: 'Services' }, href: '/talent/services' },
       { label: { ar: 'للّاعبين والعائلات', en: 'For Athletes & Families' }, href: '/talent/join' },
     ],
