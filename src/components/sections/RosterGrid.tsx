@@ -10,32 +10,25 @@ import { Tag } from '@/components/ui/Tag';
 import { cn } from '@/lib/cn';
 import { EASE } from '@/lib/motion';
 
-const TIERS = ['A+', 'A', 'B+', 'B'] as const;
-
 type RosterAthlete = Athlete & { photoUrl: string };
 
 export function RosterGrid({ locale, athletes }: { locale: Locale; athletes: RosterAthlete[] }) {
   const tr = pick(locale);
-  const [tier, setTier] = useState<string | null>(null);
   const positions = useMemo(() => {
     const set = new Map<string, string>();
     athletes.forEach((a) => set.set(tr(a.position), tr(a.position)));
     return Array.from(set.keys());
   }, [tr, athletes]);
   const [position, setPosition] = useState<string | null>(null);
-  const filtered = athletes.filter((a) => (!tier || a.tier === tier) && (!position || tr(a.position) === position));
+  const filtered = athletes.filter((a) => !position || tr(a.position) === position);
 
   return (
     <section className="bg-paper py-16 md:py-24">
       <div className="wrap">
         <div className="mb-10 flex flex-wrap items-center gap-3">
-          <FilterChip active={!tier && !position} onClick={() => { setTier(null); setPosition(null); }}>
+          <FilterChip active={!position} onClick={() => setPosition(null)}>
             {tr({ en: 'All', ar: 'الكل' })}
           </FilterChip>
-          <span className="mx-1 h-5 w-px bg-hairline" aria-hidden="true" />
-          {TIERS.map((t) => (
-            <FilterChip key={t} active={tier === t} onClick={() => setTier(tier === t ? null : t)}>{t}</FilterChip>
-          ))}
           <span className="mx-1 h-5 w-px bg-hairline" aria-hidden="true" />
           {positions.map((p) => (
             <FilterChip key={p} active={position === p} onClick={() => setPosition(position === p ? null : p)}>{p}</FilterChip>
@@ -77,10 +70,11 @@ function AthleteCard({ locale, athlete: a }: { locale: Locale; athlete: RosterAt
     <Link href={localeHref(locale, `/athletes/${a.slug}`)} className="group block h-full overflow-hidden rounded-card border border-hairline bg-paper transition-colors hover:border-ink/30">
       <div className="relative aspect-[4/5] overflow-hidden">
         <img src={a.photoUrl} alt={tr(a.name)} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3">
-          <Tag tone={a.tier === 'A+' ? 'gold' : 'blue'}>{a.tier}</Tag>
-          {a.featured && <Tag tone="cyan">{tr({ en: 'Featured', ar: 'مميَّز' })}</Tag>}
-        </div>
+        {a.featured && (
+          <div className="absolute inset-x-0 top-0 flex items-center justify-end p-3">
+            <Tag tone="cyan">{tr({ en: 'Featured', ar: 'مميَّز' })}</Tag>
+          </div>
+        )}
       </div>
       <div className="p-5">
         <h3 className="text-h3 font-bold text-ink">{tr(a.name)}</h3>
