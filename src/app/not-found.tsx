@@ -18,7 +18,7 @@ export default function NotFound() {
       <h1 className="mt-5 max-w-xl text-4xl font-extrabold text-white md:text-5xl">Page not found.</h1>
 
       <p className="mt-5 max-w-md text-base text-white/60">
-        The page you're looking for doesn't exist or has moved.
+        The page you&apos;re looking for doesn&apos;t exist or has moved.
       </p>
 
       <div className="mt-10">
