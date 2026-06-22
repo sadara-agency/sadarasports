@@ -19,7 +19,7 @@ export async function HomeHero({ locale }: { locale: Locale }) {
       <HeroBackdrop_v4 />
 
       {/* Logo — top-left / top-right (RTL-safe) */}
-      <div className="relative z-10 flex items-center px-8 pt-6">
+      <div className="relative z-10 flex items-center p-8">
         <LogoLockup variant="reverse" className="h-9" />
       </div>
 

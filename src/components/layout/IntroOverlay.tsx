@@ -1,12 +1,8 @@
 'use client';
-import { useEffect } from 'react';
 import { SadaraLogo } from './SadaraLogo';
 import './intro.css';
 
 export function IntroOverlay() {
-  useEffect(() => {
-    try { localStorage.setItem('sadara_intro_seen', '1'); } catch {}
-  }, []);
   return (
     <div className="sl-intro" role="presentation" aria-hidden="true">
       <div className="sl-slab" />

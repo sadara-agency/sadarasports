@@ -82,17 +82,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
-      <head>
-        {/* No-flash: set the intro flag before first paint so the overlay is
-            hidden instantly for returning visitors (CSS keys off data-intro). */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{var s=localStorage.getItem('sadara_intro_seen');document.documentElement.dataset.intro=s?'seen':'show'}catch(e){document.documentElement.dataset.intro='seen'}",
-          }}
-        />
-      </head>
-      <body className={`${ibmPlexArabic.variable} ${interTight.variable} ${jetbrainsMono.variable}`}>
+<body className={`${ibmPlexArabic.variable} ${interTight.variable} ${jetbrainsMono.variable}`}>
         <IntroOverlay />
         <OrganizationJsonLd />
         <CustomCursor />
