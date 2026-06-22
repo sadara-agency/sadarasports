@@ -10,11 +10,21 @@
 }
 .sl-wipe {
   position: relative;
-  width: min(46vw, 360px);
+  width: min(80vw, 360px);
   clip-path: inset(0 100% 0 0);
   animation: sl-wipe 1.25s cubic-bezier(0.7, 0, 0.2, 1) 0.2s forwards;
 }
 .sl-logo { width: 100%; height: auto; display: block; overflow: visible; }
+
+/* Tablet+ — constrain width so logo doesn't dominate large screens */
+@media (min-width: 640px) {
+  .sl-wipe { width: min(46vw, 400px); }
+}
+
+/* Small phones (≤380px) — full bleed minus padding */
+@media (max-width: 380px) {
+  .sl-wipe { width: 88vw; }
+}
 .sl-emblem .point, .sl-emblem .ring { transform-box: fill-box; transform-origin: center; }
 .sl-emblem .point { animation: sl-point 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
 .sl-emblem .point:nth-of-type(2) { animation-delay: 1.5s; }
@@ -22,6 +32,10 @@
 .sl-emblem .point:nth-of-type(4) { animation-delay: 1.7s; }
 .sl-emblem .point:nth-of-type(5) { animation-delay: 1.8s; }
 .sl-emblem .ring { animation: sl-ring 0.6s ease-in-out 1.95s both; }
+/* Mobile: lighter blur for perf */
+@media (max-width: 639px) {
+  .sl-slab { filter: blur(32px); width: 80%; }
+}
 @keyframes sl-slab { from { left: -20%; } to { left: 120%; } }
 @keyframes sl-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(-18% -18% -18% -18%); } }
 @keyframes sl-point { 0%,100% { transform: scale(1) rotate(0deg); } 45% { transform: scale(1.32) rotate(7deg); } }
