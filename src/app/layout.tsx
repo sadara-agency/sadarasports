@@ -52,7 +52,10 @@ export const metadata: Metadata = {
     'سعودي برو ليغ',
   ],
   icons: {
-    icon: [{ url: '/brand/logo-icon.svg', type: 'image/svg+xml' }],
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+      { url: '/brand/logo-icon.svg', type: 'image/svg+xml' },
+    ],
     apple: '/brand/apple-touch-icon.png',
   },
   manifest: '/manifest.webmanifest',
