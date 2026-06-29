@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import { Inter_Tight, JetBrains_Mono } from 'next/font/google';
-import { headers } from 'next/headers';
 import { OrganizationJsonLd } from '@/components/layout/JsonLd';
 import { CustomCursor } from '@/components/layout/CustomCursor';
 import { IntroOverlay } from '@/components/layout/IntroOverlay';
@@ -75,16 +74,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  // Derive locale from the request path so crawlers see correct lang/dir on first paint.
-  // Next.js sets x-invoke-path internally; fall back to 'ar' (primary locale) if absent.
-  const headersList = await headers();
-  const pathname = headersList.get('x-invoke-path') ?? headersList.get('x-pathname') ?? '/en';
-  const locale = pathname.startsWith('/ar') ? 'ar' : 'en';
-  const dir = locale === 'ar' ? 'rtl' : 'ltr';
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={locale} dir={dir} suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning>
 <body className={`${ibmPlexArabic.variable} ${interTight.variable} ${jetbrainsMono.variable}`}>
         <IntroOverlay />
         <OrganizationJsonLd />

@@ -1,7 +1,6 @@
-// Lightweight, dependency-free i18n for the bilingual marketing site.
-// Arabic is the primary register (RTL); English is the international corridor (LTR).
+// Lightweight, dependency-free i18n for the English marketing site.
 
-export const locales = ['ar', 'en'] as const;
+export const locales = ['en'] as const;
 export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = 'en';
@@ -10,12 +9,12 @@ export function isLocale(value: string): value is Locale {
   return (locales as readonly string[]).includes(value);
 }
 
-export function dir(locale: Locale): 'rtl' | 'ltr' {
-  return locale === 'ar' ? 'rtl' : 'ltr';
+export function dir(_locale: Locale): 'ltr' {
+  return 'ltr';
 }
 
-export function otherLocale(locale: Locale): Locale {
-  return locale === 'ar' ? 'en' : 'ar';
+export function otherLocale(_locale: Locale): Locale {
+  return 'en';
 }
 
 /** A bilingual string. */
