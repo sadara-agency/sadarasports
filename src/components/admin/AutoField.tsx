@@ -1,6 +1,6 @@
 'use client';
 
-import { isBilingual, isImageArrayKey, isImageKey, isLongTextKey, type Path } from '@/lib/admin/jsonPath';
+import { isBilingual, isImageArrayKey, isImageKey, isLongTextKey, looksLikeImageUrl, type Path } from '@/lib/admin/jsonPath';
 import { ImageInput } from './ImageInput';
 import { fieldLabel, minItems } from '@/lib/admin/fieldMeta';
 
@@ -49,7 +49,7 @@ export function AutoField({ value, path, label, labelAr, onChange, forceImage }:
   }
 
   // Image/asset string → uploader.
-  if (typeof value === 'string' && (forceImage || isImageKey(path[path.length - 1] ?? ''))) {
+  if (typeof value === 'string' && (forceImage || isImageKey(path[path.length - 1] ?? '') || looksLikeImageUrl(value))) {
     return (
       <div className="space-y-2">
         {label && <FieldLabel ar={labelAr}>{label}</FieldLabel>}

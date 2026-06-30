@@ -37,6 +37,13 @@ export function isImageKey(key: string | number): boolean {
   return k === 'logo' || k === 'image' || k === 'photo' || k.endsWith('image') || k.endsWith('photourl') || k.endsWith('logo');
 }
 
+// Value itself looks like an image URL — catches fields whose key doesn't hint at
+// "image" (e.g. images.athletes['some-slug'], images.pageHero.talent, images.homeHero).
+export function looksLikeImageUrl(value: string): boolean {
+  if (!/^https?:\/\//i.test(value) && !value.startsWith('/')) return false;
+  return /\.(jpe?g|png|webp|gif|svg|avif)(\?|$)/i.test(value) || /images\.unsplash\.com/i.test(value);
+}
+
 // Array field whose items are themselves image URLs (e.g. images.articles: string[]).
 export function isImageArrayKey(key: string | number): boolean {
   const k = String(key).toLowerCase();
