@@ -20,6 +20,15 @@ const T = {
 
 const RANGES: AnalyticsRange[] = [7, 30, 90];
 
+function countryName(code: string, locale: 'en' | 'ar') {
+  if (code === 'Unknown' || code.length !== 2) return code;
+  try {
+    return new Intl.DisplayNames([locale], { type: 'region' }).of(code.toUpperCase()) ?? code;
+  } catch {
+    return code;
+  }
+}
+
 export function AnalyticsDashboard({ initial }: { initial: AnalyticsSummary | null }) {
   const { locale } = useAdminPrefs();
   const ar = locale === 'ar';
@@ -91,7 +100,10 @@ export function AnalyticsDashboard({ initial }: { initial: AnalyticsSummary | nu
             </Section>
             <Section title={tr('byCountry')}>
               <BarList
-                items={summary.byCountry.map((c) => ({ label: c.country, value: c.views }))}
+                items={summary.byCountry.map((c) => ({
+                  label: countryName(c.country, ar ? 'ar' : 'en'),
+                  value: c.views,
+                }))}
                 unit={tr('views')}
                 emptyLabel={tr('empty')}
               />
