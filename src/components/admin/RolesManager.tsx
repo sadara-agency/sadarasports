@@ -4,6 +4,8 @@ import { useState } from 'react';
 import {
   saveRole, deleteRole, reorderRoles, type RoleRow,
 } from '@/app/admin/(dashboard)/roles/actions';
+import { errText, SAVED_MSG } from '@/lib/admin/validate';
+import { SaveBar } from './SaveBar';
 
 const BLANK: RoleRow = {
   title_ar: '', title_en: '', team_ar: '', team_en: '',
@@ -18,19 +20,19 @@ export function RolesManager({ initial }: { initial: RoleRow[] }) {
 
   async function onSave(row: RoleRow) {
     const res = await saveRole(row);
-    if (!res.ok) { setMsg(`Error: ${res.error}`); return; }
+    if (!res.ok) { setMsg(`Error: ${errText(res.error)}`); return; }
     setEditing(null);
     setRows((rs) => {
       const exists = row.id && rs.some((r) => r.id === row.id);
       return exists ? rs.map((r) => (r.id === row.id ? row : r)) : [...rs, row];
     });
-    setMsg('Saved — live within seconds.');
+    setMsg(SAVED_MSG);
   }
 
   async function onDelete(id: string) {
-    if (!confirm('Delete this role? This cannot be undone.')) return;
+    if (!confirm('Delete this role? It will be hidden from the site but can be restored.\nحذف هذا الدور؟ سيُخفى من الموقع ويمكن استرجاعه.')) return;
     const res = await deleteRole(id);
-    if (!res.ok) { setMsg(`Error: ${res.error}`); return; }
+    if (!res.ok) { setMsg(`Error: ${errText(res.error)}`); return; }
     setRows((rs) => rs.filter((r) => r.id !== id));
   }
 
@@ -150,15 +152,9 @@ function RoleEditor({
           <Pair label="Type" ar={draft.type_ar} en={draft.type_en} keyAr="type_ar" keyEn="type_en" />
           <Pair label="Location" ar={draft.location_ar} en={draft.location_en} keyAr="location_ar" keyEn="location_en" />
 
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={draft.published} onChange={(e) => set({ published: e.target.checked })} /> Published
-          </label>
         </div>
 
-        <div className="mt-8 flex gap-3">
-          <button onClick={() => onSave(draft)} className="rounded-lg px-5 py-2 text-sm font-medium" style={{ background: 'var(--adm-accent)' }}>Save</button>
-          <button onClick={onCancel} className="rounded-lg px-5 py-2 text-sm" style={{ borderColor: 'var(--adm-border-md)', border: '1px solid' }}>Cancel</button>
-        </div>
+        <SaveBar published={draft.published} onCancel={onCancel} onSave={(pub) => onSave({ ...draft, published: pub })} />
       </div>
     </div>
   );

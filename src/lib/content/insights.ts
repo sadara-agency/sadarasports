@@ -51,6 +51,7 @@ export const listArticles = cache(async (): Promise<ArticleWithImage[]> => {
       .from('articles')
       .select('*')
       .eq('published', true)
+      .is('archived_at', null)
       .order('sort', { ascending: true });
     if (error || !data?.length) return fallbackList();
     return (data as Row[]).map(fromRow);

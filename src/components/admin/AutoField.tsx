@@ -2,27 +2,35 @@
 
 import { isBilingual, isImageKey, isLongTextKey, type Path } from '@/lib/admin/jsonPath';
 import { ImageInput } from './ImageInput';
+import { fieldLabel, minItems } from '@/lib/admin/fieldMeta';
 
 type Props = {
   value: unknown;
   path: Path;
   label?: string;
+  labelAr?: string;
   onChange: (path: Path, value: unknown) => void;
 };
 
 const labelize = (k: string | number) =>
   String(k).replace(/([A-Z])/g, ' $1').replace(/[_-]/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
 
+// Curated bilingual label for a key, falling back to the auto-derived English one.
+function resolveLabel(k: string | number): { label: string; labelAr?: string } {
+  const bi = fieldLabel(k);
+  return bi ? { label: bi.en, labelAr: bi.ar } : { label: labelize(k) };
+}
+
 const inputCls =
   'w-full rounded-lg border px-3 text-sm outline-none transition-colors focus:ring-1 focus:ring-[#3C3CFA]';
 
-export function AutoField({ value, path, label, onChange }: Props) {
+export function AutoField({ value, path, label, labelAr, onChange }: Props) {
   // Bilingual { ar, en } → paired inputs.
   if (isBilingual(value)) {
     const long = isLongTextKey(path[path.length - 1] ?? '');
     return (
       <div className="space-y-2">
-        {label && <FieldLabel>{label}</FieldLabel>}
+        {label && <FieldLabel ar={labelAr}>{label}</FieldLabel>}
         <div className="grid gap-2 sm:grid-cols-2">
           <LocaleInput
             dir="rtl" lang="ar" placeholder="العربية" long={long}
@@ -43,7 +51,7 @@ export function AutoField({ value, path, label, onChange }: Props) {
   if (typeof value === 'string' && isImageKey(path[path.length - 1] ?? '')) {
     return (
       <div className="space-y-2">
-        {label && <FieldLabel>{label}</FieldLabel>}
+        {label && <FieldLabel ar={labelAr}>{label}</FieldLabel>}
         <ImageInput value={value} onChange={(v) => onChange(path, v)} />
       </div>
     );
@@ -53,7 +61,7 @@ export function AutoField({ value, path, label, onChange }: Props) {
   if (typeof value === 'string') {
     return (
       <div className="space-y-1.5">
-        {label && <FieldLabel>{label}</FieldLabel>}
+        {label && <FieldLabel ar={labelAr}>{label}</FieldLabel>}
         <input
           value={value}
           onChange={(e) => onChange(path, e.target.value)}
@@ -68,7 +76,7 @@ export function AutoField({ value, path, label, onChange }: Props) {
   if (typeof value === 'number') {
     return (
       <div className="space-y-1.5">
-        {label && <FieldLabel>{label}</FieldLabel>}
+        {label && <FieldLabel ar={labelAr}>{label}</FieldLabel>}
         <input
           type="number"
           value={value}
@@ -100,9 +108,11 @@ export function AutoField({ value, path, label, onChange }: Props) {
       onChange(path, next);
     };
     const blank = makeBlank(value[0]);
+    const min = minItems(path[path.length - 1] ?? '');
+    const canRemove = value.length > min;
     return (
       <div className="space-y-3 rounded-xl border p-4" style={{ borderColor: 'var(--adm-border)', background: 'var(--adm-input-bg)' }}>
-        {label && <FieldLabel>{label}</FieldLabel>}
+        {label && <FieldLabel ar={labelAr}>{label}</FieldLabel>}
         {value.map((item, i) => (
           <div key={i} className="rounded-lg border p-3" style={{ borderColor: 'var(--adm-border)', background: 'var(--adm-surface)' }}>
             <div className="mb-2 flex items-center justify-between">
@@ -112,6 +122,7 @@ export function AutoField({ value, path, label, onChange }: Props) {
                 <RowBtn onClick={() => move(i, i + 1)} disabled={i === value.length - 1}>↓</RowBtn>
                 <RowBtn
                   onClick={() => onChange(path, value.filter((_, j) => j !== i))}
+                  disabled={!canRemove}
                   danger
                 >
                   Remove
@@ -140,11 +151,12 @@ export function AutoField({ value, path, label, onChange }: Props) {
     const entries = Object.entries(value as Record<string, unknown>);
     return (
       <div className="space-y-4">
-        {label && <SectionTitle>{label}</SectionTitle>}
+        {label && <SectionTitle ar={labelAr}>{label}</SectionTitle>}
         <div className="space-y-4 border-s ps-4" style={{ borderColor: 'var(--adm-border)' }}>
-          {entries.map(([k, v]) => (
-            <AutoField key={k} value={v} path={[...path, k]} label={labelize(k)} onChange={onChange} />
-          ))}
+          {entries.map(([k, v]) => {
+            const lbl = resolveLabel(k);
+            return <AutoField key={k} value={v} path={[...path, k]} label={lbl.label} labelAr={lbl.labelAr} onChange={onChange} />;
+          })}
         </div>
       </div>
     );
@@ -204,12 +216,22 @@ function LocaleInput({
   );
 }
 
-function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>{children}</div>;
+function FieldLabel({ children, ar }: { children: React.ReactNode; ar?: string }) {
+  return (
+    <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>
+      {children}
+      {ar && <span dir="rtl" className="ms-2 font-normal" style={{ color: 'var(--adm-text-xs)' }}>· {ar}</span>}
+    </div>
+  );
 }
 
-function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <div className="text-base font-semibold" style={{ color: 'var(--adm-text)' }}>{children}</div>;
+function SectionTitle({ children, ar }: { children: React.ReactNode; ar?: string }) {
+  return (
+    <div className="text-base font-semibold" style={{ color: 'var(--adm-text)' }}>
+      {children}
+      {ar && <span dir="rtl" className="ms-2 text-sm font-normal" style={{ color: 'var(--adm-text-xs)' }}>· {ar}</span>}
+    </div>
+  );
 }
 
 function RowBtn({

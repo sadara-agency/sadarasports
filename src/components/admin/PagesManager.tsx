@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { savePage, deletePage, reorderPages, type PageRow } from '@/app/admin/(dashboard)/pages/actions';
 import { PageBuilder } from './PageBuilder';
+import { errText, SAVED_MSG } from '@/lib/admin/validate';
 
 const BLANK: PageRow = {
   slug: '', title_ar: '', title_en: '', desc_ar: '', desc_en: '',
@@ -16,20 +17,20 @@ export function PagesManager({ initial }: { initial: PageRow[] }) {
 
   async function onSave(row: PageRow) {
     const res = await savePage(row);
-    if (!res.ok) { setMsg(`Error: ${res.error}`); return; }
+    if (!res.ok) { setMsg(`Error: ${errText(res.error)}`); return; }
     setEditing(null);
     // Optimistic local update.
     setRows((rs) => {
       const exists = row.id && rs.some((r) => r.id === row.id);
       return exists ? rs.map((r) => (r.id === row.id ? row : r)) : [...rs, row];
     });
-    setMsg('Saved — live within seconds.');
+    setMsg(SAVED_MSG);
   }
 
   async function onDelete(id: string) {
-    if (!confirm('Delete this page? This cannot be undone.')) return;
+    if (!confirm('Delete this page? It will be hidden from the site but can be restored.\nحذف هذه الصفحة؟ ستُخفى من الموقع ويمكن استرجاعها.')) return;
     const res = await deletePage(id);
-    if (!res.ok) { setMsg(`Error: ${res.error}`); return; }
+    if (!res.ok) { setMsg(`Error: ${errText(res.error)}`); return; }
     setRows((rs) => rs.filter((r) => r.id !== id));
   }
 

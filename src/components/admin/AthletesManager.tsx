@@ -7,6 +7,8 @@ import {
 import { AutoField } from './AutoField';
 import { ImageInput } from './ImageInput';
 import { setAt, type Path } from '@/lib/admin/jsonPath';
+import { errText, SAVED_MSG } from '@/lib/admin/validate';
+import { SaveBar } from './SaveBar';
 
 const TIERS = ['A+', 'A', 'B+', 'B'];
 
@@ -24,12 +26,12 @@ export function AthletesManager({ initial }: { initial: AthleteRow[] }) {
   const [msg, setMsg] = useState<string | null>(null);
 
   async function refreshFromSave() {
-    setMsg('Saved — live within seconds.');
+    setMsg(SAVED_MSG);
   }
 
   async function onSave(row: AthleteRow) {
     const res = await saveAthlete(row);
-    if (!res.ok) { setMsg(`Error: ${res.error}`); return; }
+    if (!res.ok) { setMsg(`Error: ${errText(res.error)}`); return; }
     setEditing(null);
     // Optimistic local update.
     setRows((rs) => {
@@ -40,9 +42,9 @@ export function AthletesManager({ initial }: { initial: AthleteRow[] }) {
   }
 
   async function onDelete(id: string) {
-    if (!confirm('Delete this athlete? This cannot be undone.')) return;
+    if (!confirm('Delete this athlete? It will be hidden from the site but can be restored.\nحذف هذا اللاعب؟ سيُخفى من الموقع ويمكن استرجاعه.')) return;
     const res = await deleteAthlete(id);
-    if (!res.ok) { setMsg(`Error: ${res.error}`); return; }
+    if (!res.ok) { setMsg(`Error: ${errText(res.error)}`); return; }
     setRows((rs) => rs.filter((r) => r.id !== id));
   }
 
@@ -197,16 +199,9 @@ function AthleteEditor({
           </div>
 
           <AutoField value={draft.stats} path={['stats']} label="Stats" onChange={onStatsChange} />
-
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={draft.published} onChange={(e) => set({ published: e.target.checked })} /> Published
-          </label>
         </div>
 
-        <div className="mt-8 flex gap-3">
-          <button onClick={() => onSave(draft)} className="rounded-lg px-5 py-2 text-sm font-medium" style={{ background: 'var(--adm-accent)' }}>Save</button>
-          <button onClick={onCancel} className="rounded-lg px-5 py-2 text-sm" style={{ borderColor: 'var(--adm-border-md)', border: '1px solid' }}>Cancel</button>
-        </div>
+        <SaveBar published={draft.published} onCancel={onCancel} onSave={(pub) => onSave({ ...draft, published: pub })} />
       </div>
     </div>
   );

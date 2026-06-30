@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { serviceClient } from '@/lib/supabase/service';
 import { getSessionUser } from '@/lib/supabase/server';
+import { requireFields } from '@/lib/admin/validate';
 
 export type RoleRow = {
   id?: string;
@@ -27,7 +28,7 @@ function refresh() {
 export async function listAllRoles() {
   await guard();
   const db = serviceClient();
-  const { data, error } = await db.from('roles').select('*').order('sort', { ascending: true });
+  const { data, error } = await db.from('roles').select('*').is('archived_at', null).order('sort', { ascending: true });
   if (error) return { ok: false as const, error: error.message };
   return { ok: true as const, rows: (data ?? []) as RoleRow[] };
 }
@@ -35,11 +36,18 @@ export async function listAllRoles() {
 export async function saveRole(row: RoleRow) {
   await guard();
   const db = serviceClient();
+
+  const bad = requireFields(row, [
+    { key: 'title_ar', label: { ar: 'المسمى (عربي)', en: 'Title (Arabic)' } },
+    { key: 'title_en', label: { ar: 'المسمى (إنجليزي)', en: 'Title (English)' } },
+  ]);
+  if (bad) return { ok: false as const, error: bad.error };
+
   const payload = { ...row, updated_at: new Date().toISOString() };
   const res = row.id
     ? await db.from('roles').update(payload).eq('id', row.id)
     : await db.from('roles').insert(payload);
-  if (res.error) return { ok: false as const, error: res.error.message };
+  if (res.error) return { ok: false as const, error: { ar: res.error.message, en: res.error.message } };
   refresh();
   return { ok: true as const };
 }
@@ -47,7 +55,7 @@ export async function saveRole(row: RoleRow) {
 export async function deleteRole(id: string) {
   await guard();
   const db = serviceClient();
-  const { error } = await db.from('roles').delete().eq('id', id);
+  const { error } = await db.from('roles').update({ archived_at: new Date().toISOString() }).eq('id', id);
   if (error) return { ok: false as const, error: error.message };
   refresh();
   return { ok: true as const };

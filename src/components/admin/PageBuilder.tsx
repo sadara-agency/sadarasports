@@ -5,6 +5,7 @@ import type { PageRow } from '@/app/admin/(dashboard)/pages/actions';
 import { AutoField } from './AutoField';
 import { setAt, type Path } from '@/lib/admin/jsonPath';
 import { BLOCK_TYPES, BLOCK_LABELS, BLOCK_DEFAULTS, type BlockData, type BlockType } from '@/lib/blocks/schemas';
+import { SaveBar } from './SaveBar';
 
 const clone = <T,>(v: T): T => JSON.parse(JSON.stringify(v)) as T;
 
@@ -64,17 +65,13 @@ export function PageBuilder({
               className="h-10 w-full rounded-lg px-3 text-sm"
               style={{ border: '1px solid var(--adm-border-md)', background: 'var(--adm-input-bg)' }}
             />
-            <p className="text-xs" style={{ color: 'var(--adm-text-xs)' }}>Lives at /en/{draft.slug || 'slug'} and /ar/{draft.slug || 'slug'}.</p>
+            <p className="text-xs" style={{ color: 'var(--adm-text-xs)' }}>Lives at /en/{draft.slug || 'slug'} and /ar/{draft.slug || 'slug'}. Preview opens the last saved version — save a draft first to preview new changes.</p>
           </div>
 
           <Pair label="Title" ar={draft.title_ar} en={draft.title_en}
             onAr={(v) => set({ title_ar: v })} onEn={(v) => set({ title_en: v })} />
           <Pair label="Meta description" ar={draft.desc_ar} en={draft.desc_en} long
             onAr={(v) => set({ desc_ar: v })} onEn={(v) => set({ desc_en: v })} />
-
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={draft.published} onChange={(e) => set({ published: e.target.checked })} /> Published
-          </label>
         </div>
 
         {/* Blocks */}
@@ -142,18 +139,16 @@ export function PageBuilder({
           </div>
         </div>
 
-        <div className="mt-8 flex gap-3">
-          <button
-            onClick={() => onSave(draft)}
-            className="rounded-lg px-5 py-2 text-sm font-medium"
-            style={{ background: 'var(--adm-accent)', color: 'var(--adm-text)' }}
-          >Save</button>
-          <button
-            onClick={onCancel}
-            className="rounded-lg px-5 py-2 text-sm"
-            style={{ border: '1px solid var(--adm-border-md)' }}
-          >Cancel</button>
-        </div>
+        <SaveBar
+          published={draft.published}
+          onCancel={onCancel}
+          onSave={(pub) => onSave({ ...draft, published: pub })}
+          onPreview={
+            draft.slug
+              ? () => window.open(`/en/${draft.slug}?preview=1`, '_blank', 'noopener')
+              : undefined
+          }
+        />
       </div>
     </div>
   );

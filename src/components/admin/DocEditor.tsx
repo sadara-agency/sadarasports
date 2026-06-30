@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { AutoField } from './AutoField';
 import { setAt, type Path } from '@/lib/admin/jsonPath';
 import { saveDoc } from '@/app/admin/(dashboard)/docs/[doc]/actions';
+import { fieldLabel } from '@/lib/admin/fieldMeta';
+import { SAVED_MSG } from '@/lib/admin/validate';
 
 export function DocEditor({
   docKey,
@@ -32,7 +34,7 @@ export function DocEditor({
     setSaving(false);
     if (res.ok) {
       setDirty(false);
-      setMsg('Saved — live within seconds.');
+      setMsg(SAVED_MSG);
     } else {
       setMsg(`Error: ${res.error}`);
     }
@@ -59,15 +61,18 @@ export function DocEditor({
       </div>
 
       <div className="space-y-6 pb-24">
-        {Object.entries(data).map(([k, v]) => (
-          <section
-            key={k}
-            className="rounded-xl border p-5"
-            style={{ borderColor: 'var(--adm-border)', background: 'var(--adm-input-bg)' }}
-          >
-            <AutoField value={v} path={[k]} label={labelize(k)} onChange={onChange} />
-          </section>
-        ))}
+        {Object.entries(data).map(([k, v]) => {
+          const bi = fieldLabel(k);
+          return (
+            <section
+              key={k}
+              className="rounded-xl border p-5"
+              style={{ borderColor: 'var(--adm-border)', background: 'var(--adm-input-bg)' }}
+            >
+              <AutoField value={v} path={[k]} label={bi?.en ?? labelize(k)} labelAr={bi?.ar} onChange={onChange} />
+            </section>
+          );
+        })}
       </div>
     </div>
   );

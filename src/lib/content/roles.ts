@@ -26,6 +26,7 @@ export const listRoles = cache(async (): Promise<Role[]> => {
       .from('roles')
       .select('*')
       .eq('published', true)
+      .is('archived_at', null)
       .order('sort', { ascending: true });
     if (error || !data?.length) return fallback.list;
     return (data as Row[]).map(fromRow);

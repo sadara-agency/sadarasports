@@ -5,6 +5,8 @@ import {
   saveArticle, deleteArticle, reorderArticles, type ArticleRow,
 } from '@/app/admin/(dashboard)/articles/actions';
 import { ImageInput } from './ImageInput';
+import { errText, SAVED_MSG } from '@/lib/admin/validate';
+import { SaveBar } from './SaveBar';
 
 const TYPES: ArticleRow['type'][] = ['article', 'news'];
 
@@ -21,19 +23,19 @@ export function ArticlesManager({ initial }: { initial: ArticleRow[] }) {
 
   async function onSave(row: ArticleRow) {
     const res = await saveArticle(row);
-    if (!res.ok) { setMsg(`Error: ${res.error}`); return; }
+    if (!res.ok) { setMsg(`Error: ${errText(res.error)}`); return; }
     setEditing(null);
     setRows((rs) => {
       const exists = row.id && rs.some((r) => r.id === row.id);
       return exists ? rs.map((r) => (r.id === row.id ? row : r)) : [...rs, row];
     });
-    setMsg('Saved — live within seconds.');
+    setMsg(SAVED_MSG);
   }
 
   async function onDelete(id: string) {
-    if (!confirm('Delete this article? This cannot be undone.')) return;
+    if (!confirm('Delete this article? It will be hidden from the site but can be restored.\nحذف هذا المقال؟ سيُخفى من الموقع ويمكن استرجاعه.')) return;
     const res = await deleteArticle(id);
-    if (!res.ok) { setMsg(`Error: ${res.error}`); return; }
+    if (!res.ok) { setMsg(`Error: ${errText(res.error)}`); return; }
     setRows((rs) => rs.filter((r) => r.id !== id));
   }
 
@@ -181,15 +183,9 @@ function ArticleEditor({
             <ImageInput value={draft.image_url ?? ''} onChange={(v) => set({ image_url: v || null })} />
           </div>
 
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={draft.published} onChange={(e) => set({ published: e.target.checked })} /> Published
-          </label>
         </div>
 
-        <div className="mt-8 flex gap-3">
-          <button onClick={() => onSave(draft)} className="rounded-lg px-5 py-2 text-sm font-medium" style={{ background: 'var(--adm-accent)' }}>Save</button>
-          <button onClick={onCancel} className="rounded-lg px-5 py-2 text-sm" style={{ borderColor: 'var(--adm-border-md)', border: '1px solid' }}>Cancel</button>
-        </div>
+        <SaveBar published={draft.published} onCancel={onCancel} onSave={(pub) => onSave({ ...draft, published: pub })} />
       </div>
     </div>
   );

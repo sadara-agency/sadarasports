@@ -53,6 +53,7 @@ export const listAthletes = cache(async (): Promise<(Athlete & { photoUrl: strin
       .from('athletes')
       .select('*')
       .eq('published', true)
+      .is('archived_at', null)
       .order('sort', { ascending: true });
     if (error || !data?.length) return fallback.map(withPhoto);
     return (data as Row[]).map(fromRow);
