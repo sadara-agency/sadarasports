@@ -18,6 +18,20 @@ const ibmPlexArabic = localFont({
   display: 'swap',
 });
 
+const ibmPlexSans = localFont({
+  src: [
+    { path: '../../public/fonts/IBMPlexSans-Thin.ttf', weight: '100', style: 'normal' },
+    { path: '../../public/fonts/IBMPlexSans-ExtraLight.ttf', weight: '200', style: 'normal' },
+    { path: '../../public/fonts/IBMPlexSans-Light.ttf', weight: '300', style: 'normal' },
+    { path: '../../public/fonts/IBMPlexSans-Regular.ttf', weight: '400', style: 'normal' },
+    { path: '../../public/fonts/IBMPlexSans-Medium.ttf', weight: '500', style: 'normal' },
+    { path: '../../public/fonts/IBMPlexSans-SemiBold.ttf', weight: '600', style: 'normal' },
+    { path: '../../public/fonts/IBMPlexSans-Bold.ttf', weight: '700', style: 'normal' },
+  ],
+  variable: '--font-ibm-sans',
+  display: 'swap',
+});
+
 const interTight = Inter_Tight({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800'],
@@ -85,7 +99,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
-<body className={`${ibmPlexArabic.variable} ${interTight.variable} ${jetbrainsMono.variable}`}>
+<body className={`${ibmPlexSans.variable} ${ibmPlexArabic.variable} ${interTight.variable} ${jetbrainsMono.variable}`}>
         <IntroOverlay />
         <OrganizationJsonLd />
         <CustomCursor />
