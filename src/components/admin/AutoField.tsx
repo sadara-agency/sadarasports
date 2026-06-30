@@ -1,6 +1,6 @@
 'use client';
 
-import { isBilingual, isImageKey, isLongTextKey, type Path } from '@/lib/admin/jsonPath';
+import { isBilingual, isImageArrayKey, isImageKey, isLongTextKey, type Path } from '@/lib/admin/jsonPath';
 import { ImageInput } from './ImageInput';
 import { fieldLabel, minItems } from '@/lib/admin/fieldMeta';
 
@@ -10,6 +10,7 @@ type Props = {
   label?: string;
   labelAr?: string;
   onChange: (path: Path, value: unknown) => void;
+  forceImage?: boolean;
 };
 
 const labelize = (k: string | number) =>
@@ -24,7 +25,7 @@ function resolveLabel(k: string | number): { label: string; labelAr?: string } {
 const inputCls =
   'w-full rounded-lg border px-3 text-sm outline-none transition-colors focus:ring-1 focus:ring-[#3C3CFA]';
 
-export function AutoField({ value, path, label, labelAr, onChange }: Props) {
+export function AutoField({ value, path, label, labelAr, onChange, forceImage }: Props) {
   // Bilingual { ar, en } → paired inputs.
   if (isBilingual(value)) {
     const long = isLongTextKey(path[path.length - 1] ?? '');
@@ -48,7 +49,7 @@ export function AutoField({ value, path, label, labelAr, onChange }: Props) {
   }
 
   // Image/asset string → uploader.
-  if (typeof value === 'string' && isImageKey(path[path.length - 1] ?? '')) {
+  if (typeof value === 'string' && (forceImage || isImageKey(path[path.length - 1] ?? ''))) {
     return (
       <div className="space-y-2">
         {label && <FieldLabel ar={labelAr}>{label}</FieldLabel>}
@@ -110,6 +111,7 @@ export function AutoField({ value, path, label, labelAr, onChange }: Props) {
     const blank = makeBlank(value[0]);
     const min = minItems(path[path.length - 1] ?? '');
     const canRemove = value.length > min;
+    const itemIsImage = isImageArrayKey(path[path.length - 1] ?? '');
     return (
       <div className="space-y-3 rounded-xl border p-4" style={{ borderColor: 'var(--adm-border)', background: 'var(--adm-input-bg)' }}>
         {label && <FieldLabel ar={labelAr}>{label}</FieldLabel>}
@@ -129,7 +131,7 @@ export function AutoField({ value, path, label, labelAr, onChange }: Props) {
                 </RowBtn>
               </div>
             </div>
-            <AutoField value={item} path={[...path, i]} onChange={onChange} />
+            <AutoField value={item} path={[...path, i]} onChange={onChange} forceImage={itemIsImage} />
           </div>
         ))}
         {blank !== undefined && (

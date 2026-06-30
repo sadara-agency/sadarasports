@@ -37,6 +37,12 @@ export function isImageKey(key: string | number): boolean {
   return k === 'logo' || k === 'image' || k === 'photo' || k.endsWith('image') || k.endsWith('photourl') || k.endsWith('logo');
 }
 
+// Array field whose items are themselves image URLs (e.g. images.articles: string[]).
+export function isImageArrayKey(key: string | number): boolean {
+  const k = String(key).toLowerCase();
+  return k === 'articles' || k === 'images' || k === 'photos' || k === 'gallery' || k.endsWith('images') || k.endsWith('photos');
+}
+
 // Long-text bilingual fields (lead/body/desc/excerpt/bio) → textarea.
 export function isLongTextKey(key: string | number): boolean {
   const k = String(key).toLowerCase();
