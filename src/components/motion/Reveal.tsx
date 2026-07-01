@@ -21,6 +21,7 @@ export function Reveal({
   delay = 0,
   duration = 0.6,
   as = 'div',
+  skipAnimation = false,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -28,12 +29,18 @@ export function Reveal({
   delay?: number;
   duration?: number;
   as?: 'div' | 'span' | 'li' | 'section';
+  /** Render fully visible immediately — for contexts where whileInView can't
+   * fire correctly, e.g. a preview pane that isn't the real page viewport. */
+  skipAnimation?: boolean;
 }) {
   const variants: Variants = {
     hidden: { opacity: 0, ...offset[direction] },
     show: { opacity: 1, x: 0, y: 0, transition: { duration, delay, ease: EASE } },
   };
   const MotionTag = motion[as];
+  if (skipAnimation) {
+    return <MotionTag className={cn(className)} variants={variants} initial="show" animate="show">{children}</MotionTag>;
+  }
   return (
     <MotionTag className={cn(className)} variants={variants} initial="hidden" whileInView="show" viewport={viewportOnce}>
       {children}
@@ -46,19 +53,25 @@ export function RevealGroup({
   className,
   stagger = 0.08,
   delay = 0,
+  skipAnimation = false,
 }: {
   children: React.ReactNode;
   className?: string;
   stagger?: number;
   delay?: number;
+  skipAnimation?: boolean;
 }) {
+  const variants = { hidden: {}, show: { transition: { staggerChildren: stagger, delayChildren: delay } } };
+  if (skipAnimation) {
+    return <motion.div className={cn(className)} initial="show" animate="show" variants={variants}>{children}</motion.div>;
+  }
   return (
     <motion.div
       className={cn(className)}
       initial="hidden"
       whileInView="show"
       viewport={viewportOnce}
-      variants={{ hidden: {}, show: { transition: { staggerChildren: stagger, delayChildren: delay } } }}
+      variants={variants}
     >
       {children}
     </motion.div>

@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 
-const LOCALES = ['en'] as const;
+const LOCALES = ['en', 'ar'] as const;
 const DEFAULT_LOCALE = 'en';
 
 // Refreshes the Supabase auth session cookie on admin routes so server
@@ -12,12 +12,6 @@ export async function middleware(req: NextRequest) {
   // Redirect bare root to default locale.
   if (pathname === '/') {
     return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}`, req.url));
-  }
-
-  // Redirect /ar/* paths to /en/* equivalents.
-  if (pathname === '/ar' || pathname.startsWith('/ar/')) {
-    const rest = pathname.slice(3); // strip "/ar"
-    return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}${rest || '/'}`, req.url), 301);
   }
 
   // Redirect unknown locale segments (e.g. /fr/...) to default locale path.

@@ -1,6 +1,6 @@
 // Lightweight, dependency-free i18n for the English marketing site.
 
-export const locales = ['en'] as const;
+export const locales = ['en', 'ar'] as const;
 export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = 'en';
@@ -9,12 +9,12 @@ export function isLocale(value: string): value is Locale {
   return (locales as readonly string[]).includes(value);
 }
 
-export function dir(_locale: Locale): 'ltr' {
-  return 'ltr';
+export function dir(locale: Locale): 'ltr' | 'rtl' {
+  return locale === 'ar' ? 'rtl' : 'ltr';
 }
 
-export function otherLocale(_locale: Locale): Locale {
-  return 'en';
+export function otherLocale(locale: Locale): Locale {
+  return locale === 'ar' ? 'en' : 'ar';
 }
 
 /** A bilingual string. */

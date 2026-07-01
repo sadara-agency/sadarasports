@@ -7,6 +7,7 @@ import {
 import { ImageInput } from './ImageInput';
 import { RichTextField } from './RichTextField';
 import { VersionHistory } from './VersionHistory';
+import { LivePreviewPane } from './LivePreviewPane';
 import { errText, SAVED_MSG } from '@/lib/admin/validate';
 import { SaveBar } from './SaveBar';
 
@@ -156,7 +157,7 @@ function ArticleEditor({
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/60" onClick={onCancel}>
       <div
-        className="h-full w-full max-w-2xl overflow-y-auto p-8"
+        className="h-full w-full max-w-6xl overflow-y-auto p-8"
         style={{ background: 'var(--adm-surface)', color: 'var(--adm-text)' }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -172,6 +173,8 @@ function ArticleEditor({
           </div>
         </div>
 
+        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="min-w-0">
         <div className="space-y-5">
           <div className="space-y-1.5">
             <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Slug (URL, lowercase-dashes)</div>
@@ -236,6 +239,20 @@ function ArticleEditor({
               : undefined
           }
         />
+        </div>
+
+        <div className="hidden lg:block">
+          <LivePreviewPane
+            kind="article"
+            draft={{
+              title_ar: draft.title_ar, title_en: draft.title_en,
+              category_ar: draft.category_ar, category_en: draft.category_en,
+              image_url: draft.image_url,
+              body_ar: draft.body_ar, body_en: draft.body_en,
+            }}
+          />
+        </div>
+        </div>
 
         {showHistory && (
           <VersionHistory

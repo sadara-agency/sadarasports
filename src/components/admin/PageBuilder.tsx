@@ -5,6 +5,7 @@ import { getPageVersions, type PageRow } from '@/app/admin/(dashboard)/pages/act
 import { AutoField } from './AutoField';
 import { ImageInput } from './ImageInput';
 import { VersionHistory } from './VersionHistory';
+import { LivePreviewPane } from './LivePreviewPane';
 import { setAt, type Path } from '@/lib/admin/jsonPath';
 import { BLOCK_TYPES, BLOCK_LABELS, BLOCK_DEFAULTS, type BlockData, type BlockType } from '@/lib/blocks/schemas';
 import { SaveBar } from './SaveBar';
@@ -58,7 +59,7 @@ export function PageBuilder({
   return (
     <div className="fixed inset-0 z-50 flex justify-end bg-black/60" onClick={onCancel}>
       <div
-        className="h-full w-full max-w-3xl overflow-y-auto p-8"
+        className="h-full w-full max-w-6xl overflow-y-auto p-8"
         style={{ background: 'var(--adm-surface)', color: 'var(--adm-text)' }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -74,6 +75,8 @@ export function PageBuilder({
           </div>
         </div>
 
+        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="min-w-0">
         <div className="space-y-5">
           <div className="space-y-1.5">
             <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Slug (URL, lowercase-dashes)</div>
@@ -200,6 +203,12 @@ export function PageBuilder({
               : undefined
           }
         />
+        </div>
+
+        <div className="hidden lg:block">
+          <LivePreviewPane kind="page" draft={{ title_ar: draft.title_ar, title_en: draft.title_en, blocks: draft.blocks }} />
+        </div>
+        </div>
 
         {showHistory && (
           <VersionHistory

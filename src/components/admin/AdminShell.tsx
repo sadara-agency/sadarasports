@@ -26,6 +26,8 @@ const AR: Record<string, string> = {
   Athletes: 'الرياضيون',
   'Articles & News': 'المقالات والأخبار',
   'Open Roles': 'الوظائف المتاحة',
+  'Media Library': 'مكتبة الوسائط',
+  'Activity Log': 'سجل النشاط',
   'Contact Inbox': 'صندوق التواصل',
   'Content management': 'إدارة المحتوى',
   'View live site': 'عرض الموقع',
@@ -52,6 +54,8 @@ const LIST_LINKS = [
   { href: '/admin/athletes', label: 'Athletes' },
   { href: '/admin/articles', label: 'Articles & News' },
   { href: '/admin/roles', label: 'Open Roles' },
+  { href: '/admin/media', label: 'Media Library' },
+  { href: '/admin/audit', label: 'Activity Log' },
   { href: '/admin/inbox', label: 'Contact Inbox' },
 ];
 

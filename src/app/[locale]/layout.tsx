@@ -26,7 +26,7 @@ export async function generateMetadata({
     openGraph: {
       type: 'website',
       siteName: 'Sadara Sports',
-      locale: 'en_US',
+      locale: locale === 'ar' ? 'ar_SA' : 'en_US',
       title: 'Sadara Sports',
       description: 'An institution, not an agency. We represent talent, advise clubs and federations, and connect markets.',
       images: [{ url: '/brand/og-default.jpg', width: 1200, height: 630, alt: 'Sadara Sports' }],
@@ -36,6 +36,7 @@ export async function generateMetadata({
       languages: {
         'x-default': '/en',
         en: '/en',
+        ar: '/ar',
       },
     },
   };

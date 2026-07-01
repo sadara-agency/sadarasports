@@ -12,11 +12,13 @@ export function LogoGrid({
   logos,
   kicker,
   title,
+  skipAnimation = false,
 }: {
   locale: Locale;
   logos: Logo[];
   kicker?: string;
   title?: string;
+  skipAnimation?: boolean;
 }) {
   const tr = pick(locale);
   const cols = logos.length <= 2 ? 'md:grid-cols-2' : 'md:grid-cols-3';
@@ -30,7 +32,7 @@ export function LogoGrid({
             {title && <h2 className="text-h2 font-extrabold text-ink">{title}</h2>}
           </div>
         )}
-        <RevealGroup className={`grid gap-8 ${cols}`}>
+        <RevealGroup className={`grid gap-8 ${cols}`} skipAnimation={skipAnimation}>
           {logos.map((logo, i) => (
             <RevealItem key={i}>
               <div className="flex flex-col items-center justify-center gap-6 rounded-card border border-hairline bg-canvas p-8 transition-all duration-300 hover:border-electric/50 hover:shadow-md">

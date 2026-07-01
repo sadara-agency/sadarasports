@@ -1,4 +1,3 @@
-import 'server-only';
 import type { Locale } from '@/lib/i18n';
 import { pick, type Bi } from '@/lib/i18n';
 import { FeatureGrid, SplitBand, StatBand, CTASection, Prose, type Feature, type Stat } from '@/components/sections/Blocks';
@@ -7,7 +6,7 @@ import { LogoGrid, type Logo } from '@/components/sections/LogoGrid';
 import type { BlockData, BlockType } from './schemas';
 
 type Props = Record<string, unknown>;
-type RenderFn = (props: Props, locale: Locale) => React.ReactNode;
+type RenderFn = (props: Props, locale: Locale, skipAnimation: boolean) => React.ReactNode;
 
 // ---- coercion helpers (tolerate missing/legacy keys as the schema evolves) ----
 const asBi = (v: unknown): Bi =>
@@ -40,7 +39,7 @@ const RENDERERS: Record<BlockType, RenderFn> = {
     );
   },
 
-  splitBand: (p, locale) => {
+  splitBand: (p, locale, skipAnimation) => {
     const tr = pick(locale);
     const title = tr(asBi(p.title));
     const bullets = asArr(p.bullets).map(asBi).filter(filled);
@@ -51,11 +50,12 @@ const RENDERERS: Record<BlockType, RenderFn> = {
         title={title}
         body={tr(asBi(p.body))}
         bullets={bullets.length ? bullets : undefined}
+        skipAnimation={skipAnimation}
       />
     );
   },
 
-  featureGrid: (p, locale) => {
+  featureGrid: (p, locale, skipAnimation) => {
     const tr = pick(locale);
     const features: Feature[] = asArr(p.features)
       .map((f) => ({
@@ -75,11 +75,12 @@ const RENDERERS: Record<BlockType, RenderFn> = {
         kicker={tr(asBi(p.kicker)) || undefined}
         title={tr(asBi(p.title)) || undefined}
         lead={tr(asBi(p.lead)) || undefined}
+        skipAnimation={skipAnimation}
       />
     );
   },
 
-  statBand: (p, locale) => {
+  statBand: (p, locale, skipAnimation) => {
     const tr = pick(locale);
     const stats: Stat[] = asArr(p.stats)
       .map((s) => ({
@@ -97,11 +98,12 @@ const RENDERERS: Record<BlockType, RenderFn> = {
         kicker={tr(asBi(p.kicker)) || undefined}
         title={tr(asBi(p.title)) || undefined}
         stats={stats}
+        skipAnimation={skipAnimation}
       />
     );
   },
 
-  cta: (p, locale) => {
+  cta: (p, locale, skipAnimation) => {
     const tr = pick(locale);
     const title = tr(asBi(p.title));
     if (!title) return null;
@@ -115,11 +117,12 @@ const RENDERERS: Record<BlockType, RenderFn> = {
         lead={tr(asBi(p.lead)) || undefined}
         primary={{ label: tr(asBi(primary.label)), href: asStr(primary.href) || '/contact' }}
         secondary={secHref ? { label: tr(asBi(secondary.label)), href: secHref } : undefined}
+        skipAnimation={skipAnimation}
       />
     );
   },
 
-  logoGrid: (p, locale) => {
+  logoGrid: (p, locale, skipAnimation) => {
     const tr = pick(locale);
     // Stored as { title, image }; LogoGrid expects { title, src }.
     const logos: Logo[] = asArr(p.logos)
@@ -132,17 +135,18 @@ const RENDERERS: Record<BlockType, RenderFn> = {
         logos={logos}
         kicker={tr(asBi(p.kicker)) || undefined}
         title={tr(asBi(p.title)) || undefined}
+        skipAnimation={skipAnimation}
       />
     );
   },
 
-  prose: (p, locale) => {
+  prose: (p, locale, skipAnimation) => {
     const tr = pick(locale);
     const body = tr(asBi(p.body));
     if (!body.trim()) return null;
     const paras = body.split(/\n{2,}/).map((s) => s.trim()).filter(Boolean);
     return (
-      <Prose>
+      <Prose skipAnimation={skipAnimation}>
         {paras.map((para, i) => (
           <p key={i}>{para}</p>
         ))}
@@ -152,8 +156,8 @@ const RENDERERS: Record<BlockType, RenderFn> = {
 };
 
 /** Render one stored block, or null for unknown/empty blocks. */
-export function renderBlock(block: BlockData, locale: Locale): React.ReactNode {
+export function renderBlock(block: BlockData, locale: Locale, skipAnimation = false): React.ReactNode {
   const fn = RENDERERS[block.type];
   if (!fn) return null;
-  return fn(block.props ?? {}, locale);
+  return fn(block.props ?? {}, locale, skipAnimation);
 }

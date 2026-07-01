@@ -32,7 +32,6 @@ export async function generateMetadata({
   const canonicalUrl = a.canonicalUrl || `${SITE}/${locale}/athletes/${slug}`;
   const description = (a.metaDescription && tr(a.metaDescription)) || tr(a.bio);
   const ogImage = a.ogImage || a.photoUrl;
-  const altLocale = locale === 'ar' ? 'en' : 'ar';
   return {
     title: tr(a.name),
     description,

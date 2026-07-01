@@ -14,6 +14,7 @@ export function CountUp({
   duration = 1600,
   grouping = true,
   className,
+  skipAnimation = false,
 }: {
   value: number;
   prefix?: string;
@@ -23,6 +24,9 @@ export function CountUp({
   /** Thousands separator. Disable for years (e.g. 2034, not 2,034). */
   grouping?: boolean;
   className?: string;
+  /** Show the final value immediately — for contexts (e.g. a preview pane)
+   * where useInView can't fire correctly against the real viewport. */
+  skipAnimation?: boolean;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
@@ -30,6 +34,10 @@ export function CountUp({
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
+    if (skipAnimation) {
+      setDisplay(value);
+      return;
+    }
     if (!inView) return;
     if (reduce) {
       setDisplay(value);
@@ -47,7 +55,7 @@ export function CountUp({
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, value, duration, reduce]);
+  }, [inView, value, duration, reduce, skipAnimation]);
 
   const formatted = display.toLocaleString('en-US', {
     minimumFractionDigits: decimals,
