@@ -14,6 +14,8 @@ export type PageRow = {
   blocks: BlockData[];
   published: boolean;
   sort: number;
+  og_image_url: string | null;
+  canonical_url: string | null;
 };
 
 async function guard() {

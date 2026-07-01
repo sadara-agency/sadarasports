@@ -15,6 +15,7 @@ const BLANK: ArticleRow = {
   slug: '', category_ar: '', category_en: '', title_ar: '', title_en: '',
   excerpt_ar: '', excerpt_en: '', body_ar: '', body_en: '', date: '',
   type: 'article', image_url: null, sort: 0, published: true,
+  meta_description_ar: '', meta_description_en: '', og_image_url: null, canonical_url: null,
 };
 
 export function ArticlesManager({ initial }: { initial: ArticleRow[] }) {
@@ -189,6 +190,29 @@ function ArticleEditor({
           <div className="space-y-2">
             <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Image</div>
             <ImageInput value={draft.image_url ?? ''} onChange={(v) => set({ image_url: v || null })} />
+          </div>
+
+          <div className="space-y-4 rounded-xl border p-4" style={{ borderColor: 'var(--adm-border)' }}>
+            <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>SEO (optional)</div>
+            <Pair
+              label="Meta description"
+              ar={draft.meta_description_ar} en={draft.meta_description_en}
+              keyAr="meta_description_ar" keyEn="meta_description_en" long
+            />
+            <div className="space-y-2">
+              <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>OG image (overrides article image)</div>
+              <ImageInput value={draft.og_image_url ?? ''} onChange={(v) => set({ og_image_url: v || null })} />
+            </div>
+            <div className="space-y-1.5">
+              <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Canonical URL (overrides default)</div>
+              <input
+                value={draft.canonical_url ?? ''}
+                onChange={(e) => set({ canonical_url: e.target.value || null })}
+                placeholder="https://…"
+                className="h-10 w-full rounded-lg px-3 text-sm"
+                style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }}
+              />
+            </div>
           </div>
 
         </div>

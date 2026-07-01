@@ -18,6 +18,9 @@ export type ArticleRow = {
   image_url: string | null;
   sort: number;
   published: boolean;
+  meta_description_ar: string; meta_description_en: string;
+  og_image_url: string | null;
+  canonical_url: string | null;
 };
 
 async function guard() {

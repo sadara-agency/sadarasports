@@ -10,6 +10,8 @@ export type PublishedPage = {
   desc_ar: string;
   desc_en: string;
   blocks: BlockData[];
+  og_image_url: string | null;
+  canonical_url: string | null;
 };
 
 // A published builder page by slug, or null. There is no in-repo fallback for
@@ -23,7 +25,7 @@ export const getPublishedPage = cache(async (slug: string, preview = false): Pro
     const db = serviceClient();
     let q = db
       .from('pages')
-      .select('slug, title_ar, title_en, desc_ar, desc_en, blocks')
+      .select('slug, title_ar, title_en, desc_ar, desc_en, blocks, og_image_url, canonical_url')
       .eq('slug', slug)
       .is('archived_at', null);
     if (!preview) q = q.eq('published', true);

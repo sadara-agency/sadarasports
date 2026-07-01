@@ -29,11 +29,13 @@ export async function generateMetadata({
   const tr = pick(isLocale(locale) ? locale : 'en');
   const a = await getAthlete(slug, await previewAllowed(await searchParams));
   if (!a) return { title: 'Athlete' };
-  const canonicalUrl = `${SITE}/${locale}/athletes/${slug}`;
+  const canonicalUrl = a.canonicalUrl || `${SITE}/${locale}/athletes/${slug}`;
+  const description = (a.metaDescription && tr(a.metaDescription)) || tr(a.bio);
+  const ogImage = a.ogImage || a.photoUrl;
   const altLocale = locale === 'ar' ? 'en' : 'ar';
   return {
     title: tr(a.name),
-    description: tr(a.bio),
+    description,
     alternates: {
       canonical: canonicalUrl,
       languages: {
@@ -44,16 +46,16 @@ export async function generateMetadata({
     },
     openGraph: {
       title: tr(a.name),
-      description: tr(a.bio),
+      description,
       url: canonicalUrl,
       type: 'profile',
-      ...(a.photoUrl ? { images: [{ url: a.photoUrl, width: 1200, height: 630, alt: tr(a.name) }] } : {}),
+      ...(ogImage ? { images: [{ url: ogImage, width: 1200, height: 630, alt: tr(a.name) }] } : {}),
     },
     twitter: {
       card: 'summary_large_image',
       title: tr(a.name),
-      description: tr(a.bio),
-      ...(a.photoUrl ? { images: [a.photoUrl] } : {}),
+      description,
+      ...(ogImage ? { images: [ogImage] } : {}),
     },
   };
 }

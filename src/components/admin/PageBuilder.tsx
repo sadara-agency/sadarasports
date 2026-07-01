@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import type { PageRow } from '@/app/admin/(dashboard)/pages/actions';
 import { AutoField } from './AutoField';
+import { ImageInput } from './ImageInput';
 import { setAt, type Path } from '@/lib/admin/jsonPath';
 import { BLOCK_TYPES, BLOCK_LABELS, BLOCK_DEFAULTS, type BlockData, type BlockType } from '@/lib/blocks/schemas';
 import { SaveBar } from './SaveBar';
@@ -72,6 +73,24 @@ export function PageBuilder({
             onAr={(v) => set({ title_ar: v })} onEn={(v) => set({ title_en: v })} />
           <Pair label="Meta description" ar={draft.desc_ar} en={draft.desc_en} long
             onAr={(v) => set({ desc_ar: v })} onEn={(v) => set({ desc_en: v })} />
+
+          <div className="space-y-4 rounded-xl border p-4" style={{ borderColor: 'var(--adm-border)' }}>
+            <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>SEO (optional)</div>
+            <div className="space-y-2">
+              <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>OG image</div>
+              <ImageInput value={draft.og_image_url ?? ''} onChange={(v) => set({ og_image_url: v || null })} />
+            </div>
+            <div className="space-y-1.5">
+              <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Canonical URL (overrides default)</div>
+              <input
+                value={draft.canonical_url ?? ''}
+                onChange={(e) => set({ canonical_url: e.target.value || null })}
+                placeholder="https://…"
+                className="h-10 w-full rounded-lg px-3 text-sm"
+                style={{ border: '1px solid var(--adm-border-md)', background: 'var(--adm-input-bg)' }}
+              />
+            </div>
+          </div>
         </div>
 
         {/* Blocks */}

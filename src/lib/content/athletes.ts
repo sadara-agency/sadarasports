@@ -19,10 +19,17 @@ type Row = {
   accent: string;
   photo_url: string | null;
   sort: number;
+  meta_description_ar?: string; meta_description_en?: string;
+  og_image_url?: string | null; canonical_url?: string | null;
+};
+
+export type AthleteWithPhoto = Athlete & {
+  photoUrl: string;
+  metaDescription?: { ar: string; en: string }; ogImage?: string | null; canonicalUrl?: string | null;
 };
 
 // DB row → the Athlete shape components already consume, plus resolved photo.
-function fromRow(r: Row): Athlete & { photoUrl: string } {
+function fromRow(r: Row): AthleteWithPhoto {
   return {
     slug: r.slug,
     name: { ar: r.name_ar, en: r.name_en },
@@ -37,16 +44,19 @@ function fromRow(r: Row): Athlete & { photoUrl: string } {
     stats: r.stats ?? [],
     accent: r.accent,
     photoUrl: r.photo_url || images.athletes[r.slug] || images.athleteDefault,
+    metaDescription: { ar: r.meta_description_ar ?? '', en: r.meta_description_en ?? '' },
+    ogImage: r.og_image_url ?? null,
+    canonicalUrl: r.canonical_url ?? null,
   };
 }
 
-const withPhoto = (a: Athlete): Athlete & { photoUrl: string } => ({
+const withPhoto = (a: Athlete): AthleteWithPhoto => ({
   ...a,
   photoUrl: images.athletes[a.slug] ?? images.athleteDefault,
 });
 
 // preview=true also returns unpublished drafts (callers must verify the request is from an admin before passing it).
-export const listAthletes = cache(async (preview = false): Promise<(Athlete & { photoUrl: string })[]> => {
+export const listAthletes = cache(async (preview = false): Promise<AthleteWithPhoto[]> => {
   if (!supabaseConfigured()) return fallback.map(withPhoto);
   try {
     const db = serviceClient();

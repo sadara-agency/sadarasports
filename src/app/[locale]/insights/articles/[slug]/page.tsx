@@ -29,10 +29,12 @@ export async function generateMetadata({
   const tr = pick(isLocale(locale) ? locale : 'en');
   const a = await getArticleBySlug(slug, await previewAllowed(await searchParams));
   if (!a) return { title: 'Article' };
-  const canonicalUrl = `${SITE}/${locale}/insights/articles/${slug}`;
+  const canonicalUrl = a.canonicalUrl || `${SITE}/${locale}/insights/articles/${slug}`;
+  const description = (a.metaDescription && tr(a.metaDescription)) || tr(a.excerpt);
+  const ogImage = a.ogImage || a.image;
   return {
     title: tr(a.title),
-    description: tr(a.excerpt),
+    description,
     alternates: {
       canonical: canonicalUrl,
       languages: {
@@ -43,16 +45,16 @@ export async function generateMetadata({
     },
     openGraph: {
       title: tr(a.title),
-      description: tr(a.excerpt),
+      description,
       url: canonicalUrl,
       type: 'article',
-      ...(a.image ? { images: [{ url: a.image, width: 1200, height: 630, alt: tr(a.title) }] } : {}),
+      ...(ogImage ? { images: [{ url: ogImage, width: 1200, height: 630, alt: tr(a.title) }] } : {}),
     },
     twitter: {
       card: 'summary_large_image',
       title: tr(a.title),
-      description: tr(a.excerpt),
-      ...(a.image ? { images: [a.image] } : {}),
+      description,
+      ...(ogImage ? { images: [ogImage] } : {}),
     },
   };
 }

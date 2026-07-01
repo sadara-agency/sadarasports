@@ -18,6 +18,7 @@ const BLANK: AthleteRow = {
   featured: false, bio_ar: '', bio_en: '', trajectory_ar: '', trajectory_en: '',
   media_value_ar: '', media_value_en: '', stats: [], accent: 'from-electric/40',
   photo_url: null, sort: 0, published: true,
+  meta_description_ar: '', meta_description_en: '', og_image_url: null, canonical_url: null,
 };
 
 export function AthletesManager({ initial }: { initial: AthleteRow[] }) {
@@ -199,6 +200,29 @@ function AthleteEditor({
           </div>
 
           <AutoField value={draft.stats} path={['stats']} label="Stats" onChange={onStatsChange} />
+
+          <div className="space-y-4 rounded-xl border p-4" style={{ borderColor: 'var(--adm-border)' }}>
+            <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>SEO (optional)</div>
+            <Pair
+              label="Meta description"
+              ar={draft.meta_description_ar} en={draft.meta_description_en}
+              keyAr="meta_description_ar" keyEn="meta_description_en" long
+            />
+            <div className="space-y-2">
+              <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>OG image (overrides photo)</div>
+              <ImageInput value={draft.og_image_url ?? ''} onChange={(v) => set({ og_image_url: v || null })} />
+            </div>
+            <div className="space-y-1.5">
+              <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>Canonical URL (overrides default)</div>
+              <input
+                value={draft.canonical_url ?? ''}
+                onChange={(e) => set({ canonical_url: e.target.value || null })}
+                placeholder="https://…"
+                className="h-10 w-full rounded-lg px-3 text-sm"
+                style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }}
+              />
+            </div>
+          </div>
         </div>
 
         <SaveBar

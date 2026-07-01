@@ -4,7 +4,10 @@ import { serviceClient, supabaseConfigured } from '@/lib/supabase/service';
 import { articles as fallback, type Article } from '@/content/insights';
 import { images } from '@/content/images';
 
-export type ArticleWithImage = Article & { slug: string; image: string; body?: { ar: string; en: string } };
+export type ArticleWithImage = Article & {
+  slug: string; image: string; body?: { ar: string; en: string };
+  metaDescription?: { ar: string; en: string }; ogImage?: string | null; canonicalUrl?: string | null;
+};
 
 type Row = {
   slug: string;
@@ -16,6 +19,8 @@ type Row = {
   type: Article['type'];
   image_url: string | null;
   sort: number;
+  meta_description_ar?: string; meta_description_en?: string;
+  og_image_url?: string | null; canonical_url?: string | null;
 };
 
 function fromRow(r: Row, i: number): ArticleWithImage {
@@ -28,6 +33,9 @@ function fromRow(r: Row, i: number): ArticleWithImage {
     date: r.date,
     type: r.type,
     image: r.image_url || images.articles[i % images.articles.length],
+    metaDescription: { ar: r.meta_description_ar ?? '', en: r.meta_description_en ?? '' },
+    ogImage: r.og_image_url ?? null,
+    canonicalUrl: r.canonical_url ?? null,
   };
 }
 

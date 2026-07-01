@@ -7,7 +7,7 @@ import { errText, SAVED_MSG } from '@/lib/admin/validate';
 
 const BLANK: PageRow = {
   slug: '', title_ar: '', title_en: '', desc_ar: '', desc_en: '',
-  blocks: [], published: false, sort: 0,
+  blocks: [], published: false, sort: 0, og_image_url: null, canonical_url: null,
 };
 
 export function PagesManager({ initial }: { initial: PageRow[] }) {

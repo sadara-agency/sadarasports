@@ -5,6 +5,8 @@ import { getPublishedPage } from '@/lib/content/pages';
 import { renderBlock } from '@/lib/blocks/registry';
 import { previewAllowed } from '@/lib/admin/preview';
 
+const SITE = 'https://www.sadarasport.sa';
+
 // Catch-all for builder-authored pages. Rendered dynamically (SSR) per request:
 // pages are created/edited at runtime in the CMS, and the shared root layout uses
 // headers(), so this route can't be statically prerendered. Next.js resolves
@@ -24,9 +26,19 @@ export async function generateMetadata({
   const page = await getPublishedPage(slug.join('/'), await previewAllowed(await searchParams));
   if (!page) return {};
   const tr = pick(locale);
+  const title = tr({ ar: page.title_ar, en: page.title_en });
+  const description = tr({ ar: page.desc_ar, en: page.desc_en }) || undefined;
+  const canonicalUrl = page.canonical_url || `${SITE}/${locale}/${slug.join('/')}`;
   return {
-    title: tr({ ar: page.title_ar, en: page.title_en }),
-    description: tr({ ar: page.desc_ar, en: page.desc_en }) || undefined,
+    title,
+    description,
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      ...(page.og_image_url ? { images: [{ url: page.og_image_url, width: 1200, height: 630, alt: title }] } : {}),
+    },
   };
 }
 
