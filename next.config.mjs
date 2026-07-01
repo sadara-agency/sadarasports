@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  serverExternalPackages: ['jsdom', 'isomorphic-dompurify'],
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
