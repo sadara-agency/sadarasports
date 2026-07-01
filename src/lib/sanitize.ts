@@ -1,4 +1,4 @@
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtmlLib from 'sanitize-html';
 
 // Allowlist matches Tiptap StarterKit output — closes stored-XSS on admin-authored HTML
 // that gets rendered as raw markup on public pages.
@@ -6,7 +6,10 @@ const ALLOWED_TAGS = ['p', 'h2', 'h3', 'ul', 'ol', 'li', 'blockquote', 'a', 'str
 const ALLOWED_ATTR = ['href', 'target', 'rel'];
 
 export function sanitizeHtml(html: string): string {
-  return DOMPurify.sanitize(html, { ALLOWED_TAGS, ALLOWED_ATTR });
+  return sanitizeHtmlLib(html, {
+    allowedTags: ALLOWED_TAGS,
+    allowedAttributes: { a: ALLOWED_ATTR },
+  });
 }
 
 // Recursively sanitizes string leaves under long-text keys (body/desc/excerpt/bio/...)
