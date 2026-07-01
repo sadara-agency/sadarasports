@@ -1,4 +1,4 @@
-import { serviceClient } from '@/lib/supabase/service';
+import { serviceClient, supabaseConfigured } from '@/lib/supabase/service';
 
 export type AuditAction = 'create' | 'update' | 'delete';
 export type AuditEntityType = 'article' | 'athlete' | 'page' | 'role' | 'doc' | 'media';
@@ -33,6 +33,7 @@ export async function logAction(
 }
 
 export async function listAuditLog(limit = 100) {
+  if (!supabaseConfigured()) return { ok: false as const, error: 'Supabase not configured' };
   const db = serviceClient();
   const { data, error } = await db
     .from('audit_log')
