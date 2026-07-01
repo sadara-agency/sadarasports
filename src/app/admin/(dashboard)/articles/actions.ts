@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { serviceClient } from '@/lib/supabase/service';
 import { getSessionUser } from '@/lib/supabase/server';
 import { requireFields, validateSlug, checkDuplicateSlug } from '@/lib/admin/validate';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 export type ArticleRow = {
   id?: string;
@@ -53,7 +54,13 @@ export async function saveArticle(row: ArticleRow) {
   const dup = checkDuplicateSlug(row.slug, existing ?? [], row.id);
   if (dup) return { ok: false as const, error: dup.error };
 
-  const payload = { ...row, slug: row.slug.trim(), updated_at: new Date().toISOString() };
+  const payload = {
+    ...row,
+    slug: row.slug.trim(),
+    body_ar: sanitizeHtml(row.body_ar),
+    body_en: sanitizeHtml(row.body_en),
+    updated_at: new Date().toISOString(),
+  };
   const res = row.id
     ? await db.from('articles').update(payload).eq('id', row.id)
     : await db.from('articles').insert(payload);

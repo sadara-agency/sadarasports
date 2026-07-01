@@ -5,6 +5,7 @@ import {
   saveArticle, deleteArticle, reorderArticles, type ArticleRow,
 } from '@/app/admin/(dashboard)/articles/actions';
 import { ImageInput } from './ImageInput';
+import { RichTextField } from './RichTextField';
 import { errText, SAVED_MSG } from '@/lib/admin/validate';
 import { SaveBar } from './SaveBar';
 
@@ -122,23 +123,30 @@ function ArticleEditor({
   const [draft, setDraft] = useState<ArticleRow>(row);
   const set = (patch: Partial<ArticleRow>) => setDraft((d) => ({ ...d, ...patch }));
 
-  const Pair = ({ label, ar, en, keyAr, keyEn, long }: {
-    label: string; ar: string; en: string; keyAr: keyof ArticleRow; keyEn: keyof ArticleRow; long?: boolean;
+  const Pair = ({ label, ar, en, keyAr, keyEn, long, rich }: {
+    label: string; ar: string; en: string; keyAr: keyof ArticleRow; keyEn: keyof ArticleRow; long?: boolean; rich?: boolean;
   }) => (
     <div className="space-y-2">
       <div className="text-sm font-medium" style={{ color: 'var(--adm-text-md)' }}>{label}</div>
-      <div className="grid gap-2 sm:grid-cols-2">
-        {long ? (
-          <textarea dir="rtl" lang="ar" rows={3} value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<ArticleRow>)} className="rounded-lg px-3 py-2 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
-        ) : (
-          <input dir="rtl" lang="ar" value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<ArticleRow>)} className="h-10 rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
-        )}
-        {long ? (
-          <textarea dir="ltr" lang="en" rows={3} value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<ArticleRow>)} className="rounded-lg px-3 py-2 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
-        ) : (
-          <input dir="ltr" lang="en" value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<ArticleRow>)} className="h-10 rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
-        )}
-      </div>
+      {rich ? (
+        <div className="grid gap-2 sm:grid-cols-2">
+          <RichTextField dir="rtl" lang="ar" placeholder="العربية" value={ar} onChange={(v) => set({ [keyAr]: v } as Partial<ArticleRow>)} />
+          <RichTextField dir="ltr" lang="en" placeholder="English" value={en} onChange={(v) => set({ [keyEn]: v } as Partial<ArticleRow>)} />
+        </div>
+      ) : (
+        <div className="grid gap-2 sm:grid-cols-2">
+          {long ? (
+            <textarea dir="rtl" lang="ar" rows={3} value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<ArticleRow>)} className="rounded-lg px-3 py-2 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
+          ) : (
+            <input dir="rtl" lang="ar" value={ar} onChange={(e) => set({ [keyAr]: e.target.value } as Partial<ArticleRow>)} className="h-10 rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
+          )}
+          {long ? (
+            <textarea dir="ltr" lang="en" rows={3} value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<ArticleRow>)} className="rounded-lg px-3 py-2 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
+          ) : (
+            <input dir="ltr" lang="en" value={en} onChange={(e) => set({ [keyEn]: e.target.value } as Partial<ArticleRow>)} className="h-10 rounded-lg px-3 text-sm" style={{ background: 'var(--adm-input-bg)', borderColor: 'var(--adm-border-md)', border: '1px solid' }} />
+          )}
+        </div>
+      )}
     </div>
   );
 
@@ -163,7 +171,7 @@ function ArticleEditor({
           <Pair label="Category" ar={draft.category_ar} en={draft.category_en} keyAr="category_ar" keyEn="category_en" />
           <Pair label="Title" ar={draft.title_ar} en={draft.title_en} keyAr="title_ar" keyEn="title_en" />
           <Pair label="Excerpt" ar={draft.excerpt_ar} en={draft.excerpt_en} keyAr="excerpt_ar" keyEn="excerpt_en" long />
-          <Pair label="Body" ar={draft.body_ar} en={draft.body_en} keyAr="body_ar" keyEn="body_en" long />
+          <Pair label="Body" ar={draft.body_ar} en={draft.body_en} keyAr="body_ar" keyEn="body_en" rich />
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">

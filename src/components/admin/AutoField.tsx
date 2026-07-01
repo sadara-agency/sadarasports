@@ -2,7 +2,12 @@
 
 import { isBilingual, isImageArrayKey, isImageKey, isLongTextKey, looksLikeImageUrl, type Path } from '@/lib/admin/jsonPath';
 import { ImageInput } from './ImageInput';
+import { RichTextField } from './RichTextField';
 import { fieldLabel, minItems } from '@/lib/admin/fieldMeta';
+
+// Only "body"-named fields are rendered as raw HTML on the public site — other
+// long-text keys (desc/excerpt/bio/tagline/lead) stay plain text.
+const isRichTextKey = (key: string | number) => String(key).toLowerCase().includes('body');
 
 type Props = {
   value: unknown;
@@ -28,21 +33,40 @@ const inputCls =
 export function AutoField({ value, path, label, labelAr, onChange, forceImage }: Props) {
   // Bilingual { ar, en } → paired inputs.
   if (isBilingual(value)) {
-    const long = isLongTextKey(path[path.length - 1] ?? '');
+    const key = path[path.length - 1] ?? '';
+    const long = isLongTextKey(key);
+    const rich = isRichTextKey(key);
     return (
       <div className="space-y-2">
         {label && <FieldLabel ar={labelAr}>{label}</FieldLabel>}
         <div className="grid gap-2 sm:grid-cols-2">
-          <LocaleInput
-            dir="rtl" lang="ar" placeholder="العربية" long={long}
-            value={value.ar}
-            onChange={(v) => onChange([...path, 'ar'], v)}
-          />
-          <LocaleInput
-            dir="ltr" lang="en" placeholder="English" long={long}
-            value={value.en}
-            onChange={(v) => onChange([...path, 'en'], v)}
-          />
+          {rich ? (
+            <>
+              <RichTextField
+                dir="rtl" lang="ar" placeholder="العربية"
+                value={value.ar}
+                onChange={(v) => onChange([...path, 'ar'], v)}
+              />
+              <RichTextField
+                dir="ltr" lang="en" placeholder="English"
+                value={value.en}
+                onChange={(v) => onChange([...path, 'en'], v)}
+              />
+            </>
+          ) : (
+            <>
+              <LocaleInput
+                dir="rtl" lang="ar" placeholder="العربية" long={long}
+                value={value.ar}
+                onChange={(v) => onChange([...path, 'ar'], v)}
+              />
+              <LocaleInput
+                dir="ltr" lang="en" placeholder="English" long={long}
+                value={value.en}
+                onChange={(v) => onChange([...path, 'en'], v)}
+              />
+            </>
+          )}
         </div>
       </div>
     );
